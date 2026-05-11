@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rosters Oficiales | DC ESPORT</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/rooster.css">
+</head>
+<body>
+
+    <nav class="sidebar">
+        <div class="sidebar-header">
+            <img src="img/red.png" alt="Logo DC">
+            <span>DC ESPORT</span>
+        </div>
+        <ul class="nav-menu">
+            <li class="active" onclick="cambiarSeccion('inicio')">🏠 INICIO</li>
+            <li onclick="window.location.href='area.html'">🏆 ÁREA COMPETITIVA</li>
+            <li onclick="window.location.href='top.html'">📈 TOP 5 MUNDIAL</li>
+            <li onclick="window.location.href='pack.html'">💎 ABRIR PACK</li>
+            <li onclick="window.location.href='ia.html'">🤖 IA PREDICCIÓN</li>
+            <li onclick="window.location.href='evolucion.html'">📊 EVOLUCIÓN</li>
+            <li onclick="window.location.href='tabla.html'">🌎 TABLA SUDAMÉRICA</li>
+            <li onclick="window.location.href='mercado.html'">💰 MERCADO</li>
+            <li onclick="window.location.href='oro.html'">👑 BALÓN DE ORO</li>
+            <li onclick="window.location.href='mes.html'">⭐ JUGADOR DEL MES</li>
+            <li onclick="window.location.href='carrera.html'">🏟 MODO CARRERA</li>
+        </ul>
+    </nav>
+
+    <main class="main-content">
+        <header class="top-bar">
+            <h2>👥 ROSTERS OFICIALES DC ESPORT</h2>
+            <div class="user-stats">
+                <span style="color:#00ffff;">DIVISIÓN PROFESIONAL</span>
+            </div>
+        </header>
+
+        <section class="rooster-section">
+            
+            <div class="rooster-intro">
+                <h1>SQUADS DE ÉLITE</h1>
+                <p>Las tres escuadras principales de la organización. Selecciona un equipo para ver su alineación y roles.</p>
+            </div>
+
+            <div class="team-tabs">
+                <button class="tab-btn active" onclick="cambiarRoster(0, 'red')">🔴 ROSTER RED DC</button>
+                <button class="tab-btn" onclick="cambiarRoster(1, 'white')">⚪ ROSTER WHITE DC</button>
+                <button class="tab-btn" onclick="cambiarRoster(2, 'black')">⚫ ROSTER BLACK DC</button>
+                <button class="tab-btn" onclick="cambiarRoster(3, 'pink')">🟣 ROSTER FEM DC</button>
+            </div>
+
+            <div id="roster-container" class="roster-wrapper theme-red">
+                </div>
+
+        </section>
+    </main>
+
+    <script>
+        // BASE DE DATOS ESTRUCTURADA POR SQUADS CON LOGO Y ENCARGADA
+        const rostersDC = [
+            {
+                equipo: "ROSTER RED DC",
+                tema: "theme-red",
+                logo: "img/red.png",
+                encargada: { n: "JOHA", rol: "MANAGER", f: "img/dcpochi.jpeg" }, // Cambia esto por la foto real
+                jugadores: [
+                    { nick: "DC DRAGO", nombre: "Alexander", p: "🇵🇪", f: "img/dcdrago.jpeg", rol: "👑 CAPITÁN / IGL Y GRANADIER" },
+                    { nick: "DC VIDAL", nombre: "Kevin", p: "🇺🇾", f: "img/dcvidal.jpeg", rol: "🎯 SUPPORT" },
+                    { nick: "DC SEBAS JE", nombre: "Sebastian", p: "🇵🇪", f: "img/dcsebas.jpeg", rol: "⚔️ RUSHER" },
+                    { nick: "DC CARDAN", nombre: "Daniel", p: "🇧🇴", f: "img/dccardan.jpeg", rol: "⚔️ RUSHER" },
+                    { nick: "DC MAXXI", nombre: "Maxxi", p: "🇦🇷", f: "img/dcmaxi.jpeg", rol: "💣 GRANADIER" },
+                    { nick: "DC DAGXZK1NG", nombre: "Dago", p: "🇨🇱", f: "img/dcdago.jpeg", rol: "⚔️ RUSHER" },
+                    { nick: "DC PATÓN", nombre: "Caleb", p: "🇵🇪", f: "img/dccaleb.jpeg", rol: "⚔️ IGL Y RUSHER" },
+                    { nick: "DC WALYY", nombre: "Walther", p: "🇵🇪", f: "img/dcwaly.jpeg", rol: "⚔️ RUSHER" }
+                ]
+            },
+            {
+                equipo: "ROSTER WHITE DC",
+                tema: "theme-white",
+                logo: "img/white.png", // Puedes poner un logo blanco si tienes
+                encargada: { n: "CALEB", rol: "MANAGER", f: "img/dccaleb.jpeg" },
+                jugadores: [
+                    { nick: "DC MAIK", nombre: "Maicol", p: "🇵🇪", f: "img/dcmaik.jpeg", rol: "👑 CAPITÁN / IGL Y SUPPORT" },
+                    { nick: "DC AGUS", nombre: "Agustin", p: "🇦🇷", f: "img/dcagus.jpeg", rol: "⚔️ RUSHER" },
+                    { nick: "DC ZHENZEUS", nombre: "Alejandro", p: "🇧🇴", f: "img/dczeus.jpeg", rol: "⚔️ IGL Y RUSHER" },
+                    { nick: "DC JONY", nombre: "Jonatan", p: "🇦🇷", f: "img/dcjony.jpeg", rol: "⚔️ RUSHER" },
+                    { nick: "DC REVEN", nombre: "Marcelo", p: "🇦🇷", f: "img/dcreven.jpeg", rol: "💣 GRANADIER" },
+                    { nick: "DC FEDEX", nombre: "Federico", p: "🇦🇷", f: "img/dcfede.jpeg", rol: "💣 GRANADIER" },
+                    { nick: "DC ELAR", nombre: "Elar", p: "🇵🇪", f: "img/dcelar.jpeg", rol: "⚔️ RUSHER" },
+                    { nick: "DC MINI", nombre: "Ezequiel", p: "🇦🇷", f: "img/dcmini.jpeg", rol: "🎯 SUPPORT" }
+                ]
+            },
+            {
+                equipo: "ROSTER BLACK DC",
+                tema: "theme-black",
+                logo: "img/black.png", // Logo black si tienes
+                encargada: { n: "Alu", rol: "MANAGER", f: "img/dcruiz.jpeg" },
+                jugadores: [
+                    { nick: "DC RUIZZ", nombre: "Alu", p: "🇦🇷", f: "img/dcruiz.jpeg", rol: "👑 CAPITÁN / SUPPORT" },
+                    { nick: "DC ", nombre: "", p: "", f: "img/.jpeg", rol: "⚔️ RUSHER" },
+                    { nick: "DC ", nombre: "", p: "", f: "img/.jpeg", rol: "🎯 SUPPORT" },
+                    { nick: "DC ", nombre: "", p: "", f: "img/.jpeg", rol: "⚔️ RUSHER" },
+                    { nick: "DC ", nombre: "", p: "", f: "img/.jpeg", rol: "⚔️ RUSHER" },
+                    { nick: "DC ", nombre: "", p: "", f: "img/.jpeg", rol: "💣 GRANADIER" },
+                    { nick: "DC ", nombre: "", p: "", f: "img/.jpeg", rol: "⚔️ RUSHER" },
+                    { nick: "DC ", nombre: "", p: "", f: "img/.jpeg", rol: "💣 GRANADIER" }
+                ]
+            },
+            {
+                equipo: "ROSTER FEM DC",
+                tema: "theme-pink",
+                logo: "img/fem.png", 
+                encargada: { n: "DANNA", rol: "MANAGER FEM", f: "img/dcdana.jpeg" },
+                jugadores: [
+                    { nick: "DC LINDA", nombre: "Linda", p: "🇨🇱", f: "img/dclinda.jpeg", rol: "👑 CAPITÁN / IGL Y SUPPORT" },
+                    { nick: "DC POCHI", nombre: "Joha", p: "🇦🇷", f: "img/dcpochi.jpeg", rol: "👑 CAPITÁN / IGL Y RUSHER" },
+                    { nick: "DC DANNA", nombre: "Danna", p: "🇨🇱", f: "img/dcdana.jpeg", rol: "⚔️ RUSHER" },
+                    { nick: "DC IZZA", nombre: "Izza", p: "🇨🇱", f: "img/dcizza.jpeg", rol: "🎯 SUPPORT" },
+                    { nick: "DC VEXI", nombre: "Nati", p: "🇧🇴", f: "img/dcnati.jpeg", rol: "⚔️ RUSHER" },
+                    { nick: "DC VICTXRIA", nombre: "Victoria", p: "🇻🇪", f: "img/dcvictoria.jpeg", rol: "⚔️ RUSHER" },
+                    { nick: "DC TATI", nombre: "Tatiana", p: "🇵🇾", f: "img/dctati.jpeg", rol: "⚔️ RUSHER" },
+                    { nick: "DC SAYU", nombre: "Sayu", p: "🇵🇪", f: "img/dcsayu.jpeg", rol: "⚔️ RUSHER" },
+                    { nick: "DC MAY", nombre: "May", p: "🇦🇷", f: "img/dcmay.jpeg", rol: "⚔️ RUSHER" },
+                    { nick: "DC MAI", nombre: "Mai", p: "🇦🇷", f: "img/dcmai.jpeg", rol: "⚔️ RUSHER" }
+                ]
+            }
+        ];
+
+        function cambiarRoster(index, colorType) {
+            const botones = document.querySelectorAll(".tab-btn");
+            botones.forEach((btn, i) => {
+                if (i === index) btn.classList.add("active");
+                else btn.classList.remove("active");
+            });
+
+            const container = document.getElementById("roster-container");
+            const squad = rostersDC[index];
+
+            container.className = `roster-wrapper ${squad.tema}`;
+
+            // AQUÍ SE GENERA EL BANNER Y LA GRILLA
+            container.innerHTML = `
+                <div class="team-banner">
+                    <div class="banner-logo">
+                        <img src="${squad.logo}" alt="Logo">
+                    </div>
+                    <div class="banner-line"></div>
+                    <div class="banner-title">
+                        <h2>${squad.equipo}</h2>
+                    </div>
+                    <div class="banner-line"></div>
+                    <div class="banner-manager">
+                        <div class="manager-text">
+                            <span class="m-rol">${squad.encargada.rol}</span>
+                            <span class="m-name">${squad.encargada.n}</span>
+                        </div>
+                        <img src="${squad.encargada.f}" onerror="this.src='img/default.png'" class="m-foto" alt="Manager">
+                    </div>
+                </div>
+
+                <div class="roster-grid">
+                    ${squad.jugadores.map((j, i) => {
+                        // Si el rol incluye la palabra "CAPITÁN", le ponemos el estilo dorado
+                        let isCapitan = j.rol.includes("CAPITÁN"); 
+                        
+                        return `
+                            <div class="roster-card ${isCapitan ? 'card-capitan' : ''}">
+                                <div class="card-glow"></div>
+                                
+                                <div class="roster-role">
+                                    <span>${j.rol}</span>
+                                </div>
+                                
+                                <div class="roster-pfp-box">
+                                    <img src="${j.f}" onerror="this.src='img/default.png'" class="roster-pfp">
+                                    <div class="roster-flag">${j.p}</div>
+                                </div>
+                                
+                                <div class="roster-info">
+                                    <h3 class="roster-nick">${j.nick}</h3>
+                                    <div class="roster-real-name">${j.nombre}</div>
+                                </div>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+            `;
+        }
+
+        window.onload = () => cambiarRoster(0, 'red');
+    </script>
+</body>
+</html>

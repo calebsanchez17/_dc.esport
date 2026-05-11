@@ -1,0 +1,201 @@
+/* =========================================
+   ESTILOS EXCLUSIVOS: MODO CARRERA
+========================================= */
+
+.carrera-section {
+    padding: 30px 40px;
+    overflow-y: auto;
+    height: calc(100vh - 90px);
+    padding-bottom: 80px;
+}
+
+.carrera-section::-webkit-scrollbar { width: 8px; }
+.carrera-section::-webkit-scrollbar-thumb { background: #00ff88; border-radius: 10px; }
+
+/* PANEL DE BÚSQUEDA INTELIGENTE */
+.control-panel {
+    background: rgba(0, 255, 136, 0.05);
+    border: 1px solid rgba(0, 255, 136, 0.2);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 30px;
+}
+
+.selector-group { display: flex; flex-direction: column; gap: 10px; }
+.selector-group label { color: #00ff88; font-size: 14px; letter-spacing: 2px; font-weight: bold; }
+
+.search-box { display: flex; gap: 15px; align-items: center; }
+
+#player-input {
+    background: #0b0e14;
+    color: white;
+    border: 1px solid #00ff88;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 16px;
+    outline: none;
+    width: 300px;
+    box-shadow: 0 0 10px rgba(0, 255, 136, 0.2);
+    transition: 0.3s;
+}
+
+#player-input:focus { box-shadow: 0 0 20px rgba(0, 255, 136, 0.5); border-color: #fff; }
+
+.btn-search {
+    background: #00ff88;
+    color: #000;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 8px;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 900;
+    font-size: 14px;
+    cursor: pointer;
+    transition: 0.3s;
+    letter-spacing: 1px;
+}
+
+.btn-search:hover { background: #00cc6a; box-shadow: 0 0 15px rgba(0, 255, 136, 0.5); transform: translateY(-2px); }
+
+
+/* GRID PRINCIPAL */
+.career-grid {
+    display: grid;
+    grid-template-columns: 350px 1fr;
+    grid-template-rows: auto auto;
+    gap: 30px;
+}
+
+.career-widget {
+    background: rgba(10, 15, 25, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.5);
+    backdrop-filter: blur(10px);
+}
+
+/* =========================================
+   1. WIDGET: PERFIL DEL JUGADOR
+========================================= */
+.player-showcase {
+    grid-column: 1;
+    grid-row: 1 / 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: linear-gradient(180deg, rgba(0, 255, 136, 0.05), rgba(10, 15, 25, 0.9));
+    border-top: 3px solid #00ff88;
+}
+
+.fut-card {
+    width: 220px;
+    border-radius: 15px;
+    padding: 20px;
+    text-align: center;
+    margin-bottom: 30px;
+    animation: floatCard 4s ease-in-out infinite;
+    transition: 0.5s;
+}
+
+/* COLORES DINÁMICOS DE CARTAS */
+.rarity-legend { background: linear-gradient(135deg, #ffdf00, #b8860b); border: 2px solid #fff; box-shadow: 0 15px 35px rgba(255, 215, 0, 0.4); color:#111; }
+.rarity-legend .player-img-box img { border-color: #fff; }
+.rarity-legend .card-divider { background: rgba(0,0,0,0.2); }
+
+.rarity-epic { background: linear-gradient(135deg, #4b0082, #8a2be2); border: 2px solid #d580ff; box-shadow: 0 15px 35px rgba(138,43,226,0.5); color:#fff; }
+.rarity-epic .player-img-box img { border-color: #d580ff; }
+.rarity-epic .card-divider { background: rgba(255,255,255,0.3); }
+
+.rarity-normal { background: linear-gradient(135deg, #e0e0e0, #888); border: 2px solid #fff; box-shadow: 0 15px 35px rgba(255,255,255,0.3); color:#111; }
+.rarity-normal .player-img-box img { border-color: #555; }
+.rarity-normal .card-divider { background: rgba(0,0,0,0.2); }
+
+@keyframes floatCard { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+
+.card-top-info { display: flex; justify-content: space-between; align-items: flex-start; }
+.rating-box { display: flex; flex-direction: column; align-items: center; }
+.rat { font-size: 36px; font-weight: 900; line-height: 1; }
+.pos { font-size: 12px; font-weight: bold; margin-bottom: 5px; }
+.flag { font-size: 24px; }
+
+.player-img-box { width: 110px; height: 110px; }
+.player-img-box img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; border: 3px solid; }
+
+.player-name { font-size: 18px; font-weight: 900; margin-top: 15px; letter-spacing: 1px; }
+.card-divider { height: 1px; margin: 10px 0; }
+.player-stats { display: flex; justify-content: space-between; padding: 0 10px; }
+.col-stat { display: flex; flex-direction: column; gap: 5px; }
+.col-stat span { font-size: 11px; display: flex; justify-content: space-between; width: 65px; font-weight: bold; }
+.col-stat b { font-size: 14px; }
+
+.player-details { text-align: center; width: 100%; }
+.status-live { font-size: 11px; color: #00ff88; font-weight: bold; letter-spacing: 1px; margin-bottom: 20px; }
+.dot { display: inline-block; width: 8px; height: 8px; background: #00ff88; border-radius: 50%; margin-right: 5px; animation: blink 1.5s infinite; }
+
+@keyframes blink { 50% { opacity: 0.3; } }
+
+.market-value { background: rgba(0, 0, 0, 0.5); padding: 15px; border-radius: 10px; border: 1px solid rgba(0, 255, 136, 0.3); display: flex; flex-direction: column; gap: 5px; }
+.market-value span { font-size: 10px; color: #aaa; }
+.market-value b { font-size: 24px; color: gold; text-shadow: 0 0 10px rgba(255, 215, 0, 0.4); }
+
+
+/* =========================================
+   2. WIDGET: SALA DE TROFEOS
+========================================= */
+.trophy-cabinet { grid-column: 2; grid-row: 1; }
+.trophy-cabinet h3 { color: #fff; letter-spacing: 2px; margin-bottom: 25px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; }
+
+.trophy-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 20px; }
+.trophy-item { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,215,0,0.2); border-radius: 15px; padding: 20px 10px; text-align: center; transition: 0.3s; }
+.trophy-item:hover { transform: translateY(-5px); background: rgba(255,215,0,0.05); border-color: gold; box-shadow: 0 10px 20px rgba(255,215,0,0.1); }
+.trophy-icon { font-size: 40px; margin-bottom: 10px; filter: drop-shadow(0 5px 10px rgba(0,0,0,0.5)); }
+.trophy-item span { display: block; font-size: 11px; color: #fff; font-weight: bold; }
+
+/* Efecto cuando un jugador NO tiene el trofeo */
+.locked { opacity: 0.3; filter: grayscale(100%); border-color: #333; }
+.locked:hover { transform: none; box-shadow: none; border-color: #333; background: rgba(255,255,255,0.03); cursor: not-allowed; }
+
+
+/* =========================================
+   3. WIDGET: LÍNEA DEL TIEMPO
+========================================= */
+.trajectory-widget { grid-column: 2; grid-row: 2; }
+.trajectory-widget h3 { color: #fff; letter-spacing: 2px; margin-bottom: 30px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; }
+
+.timeline { position: relative; padding-left: 30px; border-left: 2px solid rgba(0, 255, 136, 0.3); }
+.timeline-item { position: relative; margin-bottom: 25px; }
+.timeline-item:last-child { margin-bottom: 0; }
+
+.timeline-dot {
+    position: absolute;
+    left: -37px; top: 0;
+    width: 12px; height: 12px;
+    background: #00ff88;
+    border-radius: 50%;
+    box-shadow: 0 0 10px #00ff88;
+    border: 3px solid #121620;
+}
+
+.timeline-content {
+    background: rgba(0,0,0,0.3);
+    padding: 15px 20px;
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.05);
+    transition: 0.3s;
+}
+
+.timeline-item:hover .timeline-content {
+    background: rgba(0, 255, 136, 0.05);
+    border-color: rgba(0, 255, 136, 0.3);
+    transform: translateX(10px);
+}
+
+.timeline-content h4 { color: #00ff88; font-size: 14px; margin-bottom: 5px; }
+.timeline-content p { color: #aaa; font-size: 12px; }
+
+.inactive .timeline-dot { background: #444; box-shadow: none; border-color: #222; }
+.inactive .timeline-content h4 { color: #666; }
+.inactive .timeline-content p { color: #555; }
+.inactive:hover .timeline-content { transform: none; background: rgba(0,0,0,0.3); border-color: rgba(255,255,255,0.05); }

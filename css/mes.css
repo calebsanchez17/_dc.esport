@@ -1,0 +1,233 @@
+/* =========================================
+   ESTILOS EXCLUSIVOS: JUGADOR DEL MES (POTM)
+========================================= */
+
+.mes-section {
+    padding: 30px 40px;
+    overflow-y: auto;
+    height: calc(100vh - 90px);
+    padding-bottom: 80px;
+}
+
+.mes-section::-webkit-scrollbar { width: 8px; }
+.mes-section::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #a020f0, #d580ff); border-radius: 10px; }
+
+.potm-intro {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.potm-intro h1 {
+    font-size: 38px;
+    color: #fff;
+    text-shadow: 0 0 20px rgba(160, 32, 240, 0.6);
+    margin-bottom: 5px;
+    letter-spacing: 2px;
+}
+
+.potm-intro p { color: #aaa; font-size: 14px; }
+
+/* =========================================
+   SECCIÓN: MES EN PROGRESO (CANDIDATOS)
+========================================= */
+.live-month-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.live-month-header h3 {
+    font-size: 24px;
+    color: #fff;
+    letter-spacing: 2px;
+}
+
+.badge-live {
+    background: #ff0000;
+    color: #fff;
+    font-size: 12px;
+    padding: 4px 10px;
+    border-radius: 5px;
+    vertical-align: middle;
+    animation: blink 1.5s infinite;
+    margin-left: 10px;
+}
+
+@keyframes blink { 50% { opacity: 0.4; box-shadow: 0 0 10px red; } }
+
+.live-month-header p {
+    color: #d580ff;
+    font-size: 12px;
+    margin-top: 5px;
+    font-weight: bold;
+}
+
+/* CARDS DE CANDIDATOS */
+.candidates-showcase {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    margin-bottom: 60px;
+}
+
+.potm-card-cand {
+    background: linear-gradient(135deg, #1f003a, #10001f);
+    border: 1px solid #d580ff;
+    border-radius: 15px;
+    padding: 20px;
+    width: 240px;
+    text-align: center;
+    position: relative;
+    transition: 0.3s;
+    opacity: 0.9;
+}
+
+.card-top-cand {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.rating-col-cand { display: flex; flex-direction: column; align-items: center; }
+.rat-cand { font-size: 32px; font-weight: 900; color: #fff; text-shadow: 0 0 10px #d580ff; }
+.flag-cand { font-size: 20px; }
+
+.img-col-cand { width: 100px; height: 100px; }
+.img-col-cand img {
+    width: 100%; height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #d580ff;
+}
+
+.card-bottom-cand h2 { font-size: 16px; margin-bottom: 15px; letter-spacing: 1px; }
+
+.potm-stats-cand {
+    display: flex;
+    justify-content: space-around;
+    background: rgba(0,0,0,0.5);
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid rgba(213, 128, 255, 0.2);
+}
+
+.stat-cand { display: flex; flex-direction: column; }
+.stat-cand span { font-size: 9px; color: #aaa; margin-bottom: 3px; }
+.stat-cand b { font-size: 16px; color: gold; }
+
+/* El Líder del Mes (Centro) */
+.cand-leader {
+    transform: scale(1.15);
+    z-index: 10;
+    opacity: 1;
+    border: 2px solid gold;
+    box-shadow: 0 20px 40px rgba(160, 32, 240, 0.5);
+    animation: floatLeader 4s ease-in-out infinite;
+    background: linear-gradient(135deg, #2a004d, #1a0033);
+}
+
+.cand-leader .rat-cand { color: gold; text-shadow: 0 0 10px gold; }
+.cand-leader .img-col-cand img { border-color: gold; }
+
+.leader-tag {
+    position: absolute;
+    top: -15px; left: 50%;
+    transform: translateX(-50%);
+    background: gold;
+    color: #000;
+    font-size: 11px;
+    font-weight: 900;
+    padding: 4px 15px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
+    z-index: 5;
+}
+
+@keyframes floatLeader {
+    0%, 100% { transform: scale(1.15) translateY(0px); }
+    50% { transform: scale(1.15) translateY(-10px); }
+}
+
+/* =========================================
+   DIVISOR
+========================================= */
+.divider-purple {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #d580ff, transparent);
+    margin: 0 auto 50px auto;
+    width: 80%;
+}
+
+/* =========================================
+   HISTORIAL CERRADO
+========================================= */
+.history-title {
+    text-align: center;
+    color: #fff;
+    letter-spacing: 2px;
+    margin-bottom: 30px;
+}
+
+.potm-history-grid {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.potm-card-small {
+    background: linear-gradient(135deg, #1a1a2e, #16213e);
+    border: 1px solid rgba(213, 128, 255, 0.3);
+    border-radius: 15px;
+    padding: 20px;
+    width: 190px;
+    text-align: center;
+    position: relative;
+    transition: 0.3s;
+}
+
+.potm-card-small:hover {
+    transform: translateY(-5px);
+    border-color: #d580ff;
+    box-shadow: 0 10px 20px rgba(160, 32, 240, 0.2);
+}
+
+.month-ribbon {
+    position: absolute;
+    top: -12px; left: 50%;
+    transform: translateX(-50%);
+    background: #d580ff;
+    color: #000;
+    font-weight: 900;
+    font-size: 11px;
+    padding: 4px 15px;
+    border-radius: 10px;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.5);
+    z-index: 10;
+}
+
+.card-top-small {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.rating-col-small { display: flex; flex-direction: column; align-items: center; }
+.rat-small { font-size: 22px; font-weight: 900; color: #fff; }
+.flag-small { font-size: 16px; }
+
+.img-small {
+    width: 70px; height: 70px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #d580ff;
+}
+
+.potm-card-small h3 { font-size: 14px; margin-bottom: 15px; }
+.potm-stats-small {
+    display: flex; flex-direction: column; gap: 5px;
+    background: rgba(0,0,0,0.4); padding: 10px; border-radius: 8px; font-size: 11px; color: gold; font-weight: bold;
+}

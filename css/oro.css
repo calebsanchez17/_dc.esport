@@ -1,0 +1,218 @@
+/* =========================================
+   ESTILOS EXCLUSIVOS: BALÓN DE ORO
+========================================= */
+
+.oro-section {
+    padding: 30px 40px;
+    overflow-y: auto;
+    height: calc(100vh - 90px);
+    padding-bottom: 80px;
+}
+
+.oro-section::-webkit-scrollbar { width: 8px; }
+.oro-section::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #ffd700, #b8860b); border-radius: 10px; }
+
+.gala-intro {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.gala-intro h1 {
+    font-size: 36px;
+    color: #fff;
+    text-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+    margin-bottom: 5px;
+    letter-spacing: 2px;
+}
+
+.gala-intro p {
+    color: #aaa;
+    font-size: 14px;
+}
+
+/* =========================================
+   SECCIÓN 2026: EN PROGRESO (CANDIDATOS)
+========================================= */
+.current-season {
+    background: rgba(0, 170, 255, 0.02);
+    border: 1px solid rgba(0, 170, 255, 0.2);
+    border-radius: 20px;
+    padding: 30px;
+    margin-bottom: 50px;
+}
+
+.section-title {
+    text-align: center;
+    font-size: 20px;
+    color: #fff;
+    letter-spacing: 2px;
+    margin-bottom: 5px;
+}
+
+.badge-live {
+    background: #ff0000;
+    color: #fff;
+    font-size: 10px;
+    padding: 3px 8px;
+    border-radius: 5px;
+    vertical-align: middle;
+    animation: blink 1.5s infinite;
+}
+
+@keyframes blink { 50% { opacity: 0.4; } }
+
+.subtitle {
+    text-align: center;
+    color: #888;
+    font-size: 12px;
+    margin-bottom: 30px;
+}
+
+.candidates-grid {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.candidate-card {
+    background: rgba(10, 15, 25, 0.8);
+    border: 1px solid rgba(0, 170, 255, 0.3);
+    border-radius: 15px;
+    padding: 20px;
+    width: 180px;
+    text-align: center;
+    position: relative;
+    transition: 0.3s;
+}
+
+.candidate-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 170, 255, 0.2);
+}
+
+.rank-pos {
+    position: absolute;
+    top: -10px; left: -10px;
+    background: #00aaff;
+    color: #000;
+    font-weight: 900;
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    display: flex; justify-content: center; align-items: center;
+    box-shadow: 0 0 10px #00aaff;
+}
+
+.candidate-img {
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #00aaff;
+    margin-bottom: 10px;
+}
+
+.candidate-name { font-size: 13px; margin-bottom: 5px; }
+.candidate-score { color: #00ffff; font-weight: bold; font-size: 16px; margin-bottom: 10px; }
+.candidate-stats { display: flex; justify-content: space-around; font-size: 10px; color: #888; background: rgba(0,0,0,0.5); padding: 5px; border-radius: 5px; }
+
+/* El Líder Actual (Top 1) */
+.leader-card {
+    border-color: gold;
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.2);
+}
+.leader-card .rank-pos { background: gold; box-shadow: 0 0 10px gold; }
+.leader-card .candidate-img { border-color: gold; }
+.leader-card .candidate-score { color: gold; }
+.leader-badge {
+    position: absolute; top: -25px; left: 50%; transform: translateX(-50%);
+    background: gold; color: #000; font-size: 10px; font-weight: bold; padding: 3px 10px; border-radius: 10px;
+}
+
+
+/* =========================================
+   DIVISOR
+========================================= */
+.divider-gold {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #ffd700, transparent);
+    margin: 0 auto 50px auto;
+    width: 80%;
+}
+
+
+/* =========================================
+   SECCIÓN HISTÓRICA: SALÓN DE LA FAMA
+========================================= */
+.hall-of-fame {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 30px;
+    max-width: 1200px;
+    margin: 30px auto 0;
+}
+
+.year-card {
+    background: linear-gradient(180deg, rgba(25, 20, 5, 0.9), rgba(10, 10, 10, 1));
+    border: 1px solid rgba(255, 215, 0, 0.2);
+    border-radius: 20px;
+    padding: 30px;
+    text-align: center;
+    position: relative;
+    transition: 0.4s;
+    overflow: hidden;
+}
+
+.year-card:hover {
+    transform: translateY(-10px);
+    border-color: gold;
+    box-shadow: 0 15px 40px rgba(255, 215, 0, 0.15);
+}
+
+.year-badge {
+    position: absolute;
+    top: 15px; right: 15px;
+    background: gold; color: #000; font-weight: 900;
+    padding: 5px 15px; border-radius: 5px; font-size: 14px;
+}
+
+.winner-frame {
+    width: 120px; height: 120px;
+    margin: 0 auto 20px;
+    position: relative;
+}
+
+.winner-img {
+    width: 100%; height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid gold;
+    position: relative;
+    z-index: 2;
+}
+
+.aura {
+    position: absolute; top: -5px; left: -5px;
+    width: 130px; height: 130px;
+    background: radial-gradient(circle, gold 0%, transparent 70%);
+    border-radius: 50%; opacity: 0.3;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 0.3; }
+    50% { transform: scale(1.1); opacity: 0.5; }
+}
+
+.country-mini {
+    position: absolute; bottom: 0; right: 0;
+    font-size: 20px; z-index: 3; background: #000;
+    border-radius: 50%; width: 30px; height: 30px;
+    display: flex; align-items: center; justify-content: center;
+    border: 1px solid gold;
+}
+
+.winner-details .name { font-size: 18px; color: #fff; letter-spacing: 2px; margin-bottom: 10px; }
+.stats-row { color: #aaa; font-size: 11px; margin-bottom: 15px; }
+.divider { margin: 0 10px; color: gold; }
+.score-pill { background: rgba(255, 215, 0, 0.1); color: gold; border: 1px solid gold; padding: 5px 15px; border-radius: 20px; font-size: 11px; font-weight: bold; display: inline-block; }

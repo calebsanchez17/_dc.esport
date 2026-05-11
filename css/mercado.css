@@ -1,0 +1,156 @@
+/* =========================================
+   ESTILOS EXCLUSIVOS: MERCADO DE FICHAJES
+========================================= */
+
+/* =========================================
+   ESTILOS EXCLUSIVOS: MERCADO DE FICHAJES
+========================================= */
+
+.mercado-section {
+    padding: 20px 40px;
+    animation: fadeIn 0.8s ease-in-out;
+    
+    /* ESTAS 3 LÍNEAS ARREGLAN EL SCROLL */
+    overflow-y: auto;
+    height: calc(100vh - 90px); /* Ajusta según el tamaño de tu barra superior */
+    padding-bottom: 100px; /* Da un respiro al llegar al fondo */
+}
+
+/* 🌟 BARRA DE SCROLL PERSONALIZADA (ESTILO PRO) */
+.mercado-section::-webkit-scrollbar {
+    width: 8px;
+}
+.mercado-section::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+}
+.mercado-section::-webkit-scrollbar-thumb {
+    background: #ffd700; /* Color Dorado */
+    border-radius: 10px;
+}
+.mercado-section::-webkit-scrollbar-thumb:hover {
+    background: #ccaa00;
+}
+
+/* ... (El resto de tu CSS de mercado se queda igual a partir de aquí) ... */
+.mercado-info {
+    margin-bottom: 40px;
+    color: #888;
+/* ... */
+}
+
+/* GRILLA */
+.mercado-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 30px;
+}
+
+/* TARJETA DE MERCADO */
+.market-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 15px;
+    padding: 20px;
+    text-align: center;
+    transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    backdrop-filter: blur(5px);
+}
+
+.market-card:hover {
+    transform: translateY(-10px);
+    border-color: #ffd700;
+    box-shadow: 0 15px 30px rgba(255, 215, 0, 0.1);
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.card-rating {
+    font-size: 24px;
+    font-weight: 900;
+    color: #fff;
+}
+
+.card-price {
+    font-size: 12px;
+    color: gold;
+    font-weight: bold;
+    background: rgba(0,0,0,0.4);
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+.card-img-box {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 15px;
+    border-radius: 50%;
+    border: 2px solid #333;
+    overflow: hidden;
+}
+
+.card-img-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.market-card h3 {
+    font-size: 14px;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+}
+
+.card-stats {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    font-size: 11px;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.btn-sign {
+    width: 100%;
+    padding: 10px;
+    background: transparent;
+    color: #ffd700;
+    border: 1px solid #ffd700;
+    border-radius: 5px;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 900;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-sign:hover {
+    background: #ffd700;
+    color: #000;
+}
+
+/* NOTIFICACIONES */
+.notificacion {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    padding: 15px 30px;
+    border-radius: 10px;
+    color: white;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 12px;
+    transform: translateY(100px);
+    transition: 0.5s;
+    z-index: 1000;
+}
+
+.notificacion.show { transform: translateY(0); }
+.success { background: #28a745; box-shadow: 0 0 20px rgba(40, 167, 69, 0.4); }
+.error { background: #dc3545; box-shadow: 0 0 20px rgba(220, 53, 69, 0.4); }
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }

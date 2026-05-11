@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jugador del Mes | DC ESPORT</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/mes.css">
+</head>
+<body>
+
+    <nav class="sidebar">
+        <div class="sidebar-header">
+            <img src="img/red.png" alt="Logo DC">
+            <span>DC ESPORT</span>
+        </div>
+        <ul class="nav-menu">
+
+            <li class="active" onclick="cambiarSeccion('inicio')">🏠 INICIO</li>
+            <li onclick="window.location.href='area.html'">🏆 ÁREA COMPETITIVA</li>
+            <li onclick="window.location.href='top.html'">📈 TOP 5 MUNDIAL</li>
+            <li onclick="window.location.href='pack.html'">💎 ABRIR PACK</li>
+            <li onclick="window.location.href='ia.html'">🤖 IA PREDICCIÓN</li>
+            <li onclick="window.location.href='evolucion.html'">📊 EVOLUCIÓN</li>
+            <li onclick="window.location.href='tabla.html'">🌎 TABLA SUDAMÉRICA</li>
+            <li onclick="window.location.href='mercado.html'">💰 MERCADO</li>
+            <li onclick="window.location.href='balon.html'">👑 BALÓN DE ORO</li>
+            <li onclick="window.location.href='carrera.html'">🏟 MODO CARRERA</li>
+            <li onclick="window.location.href='rooster.html'">👥 ROOSTER</li>
+        </ul>
+    </nav>
+
+    <main class="main-content">
+        <header class="top-bar">
+            <h2>⭐ JUGADOR DEL MES (POTM)</h2>
+            <div class="user-stats">
+                <span style="color:#d580ff;">TEMPORADA 2026</span>
+            </div>
+        </header>
+
+        <section class="mes-section">
+            
+            <div class="potm-intro">
+                <h1>EL REY DE MAYO</h1>
+                <p>Sigue la carrera en vivo por el MVP del mes. Las estadísticas se cierran a fin de mes.</p>
+            </div>
+
+            <div class="live-month-header">
+                <h3>MAYO 2026 <span class="badge-live">EN PROGRESO</span></h3>
+                <p>CANDIDATOS PRINCIPALES</p>
+            </div>
+
+            <div id="potm-candidates" class="candidates-showcase">
+                </div>
+
+            <div class="divider-purple"></div>
+
+            <h3 class="history-title">📅 HISTORIAL CERRADO 2026</h3>
+            <div id="potm-history" class="potm-history-grid">
+                </div>
+
+        </section>
+    </main>
+
+    <script>
+        // Los 3 candidatos en vivo para el mes de MAYO
+        const candidatosMayo = [
+            { n: "DC ELAR", m: 1, k: 12, p: "🇵🇪", f: "img/elar.jpg", pts: 310 }, // Líder
+            { n: "DC MAXXI", m: 1, k: 8, p: "🇦🇷", f: "img/maxii.jpg", pts: 200 }, // 2do
+            { n: "DC SEBAS JE", m: 1, k: 8, p: "🇵🇪", f: "img/sebas.jpg", pts: 200 } // 3ra
+        ];
+
+        // Los ganadores de los meses anteriores
+        const historialPOTM = [
+            { mes: "ABRIL", n: "DC SEBAS JE", m: 4, k: 40, p: "🇵🇪", f: "img/sebas.jpg" },
+            { mes: "MARZO", n: "DC VALENTINA", m: 5, k: 103, p: "🇦🇷", f: "img/valentina.jpg" },
+            { mes: "FEBRERO", n: "DC ELAR", m: 4, k: 143, p: "🇵🇪", f: "img/elar.jpg" },
+            { mes: "ENERO", n: "DC VALENTINA", m: 4, k: 104, p: "🇦🇷", f: "img/valentina.jpg" }
+        ];
+
+        function renderizarPOTM() {
+            // --- 1. RENDERIZAR CANDIDATOS (MAYO) ---
+            const candContainer = document.getElementById("potm-candidates");
+            // Orden visual: 2do a la izquierda, 1ro al centro, 3ro a la derecha
+            const ordenVisual = [candidatosMayo[1], candidatosMayo[0], candidatosMayo[2]];
+
+            candContainer.innerHTML = ordenVisual.map((c, index) => {
+                let isLeader = index === 1; // El del centro es el índice 1
+                let rating = Math.min(99, Math.round((c.k / 1.5) + (c.m * 8)) + 15);
+                
+                return `
+                    <div class="potm-card-cand ${isLeader ? 'cand-leader' : ''}">
+                        ${isLeader ? '<div class="leader-tag">LÍDER ACTUAL</div>' : ''}
+                        <div class="card-top-cand">
+                            <div class="rating-col-cand">
+                                <span class="rat-cand">${rating}</span>
+                                <span class="flag-cand">${c.p}</span>
+                            </div>
+                            <div class="img-col-cand">
+                                <img src="${c.f}" onerror="this.src='img/default.png'">
+                            </div>
+                        </div>
+                        <div class="card-bottom-cand">
+                            <h2>${c.n}</h2>
+                            <div class="potm-stats-cand">
+                                <div class="stat-cand"><span>KILLS</span><b>${c.k}</b></div>
+                                <div class="stat-cand"><span>MVP</span><b>${c.m}</b></div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            // --- 2. RENDERIZAR HISTORIAL (ENERO - ABRIL) ---
+            const histContainer = document.getElementById("potm-history");
+            histContainer.innerHTML = historialPOTM.map(h => {
+                let rating = Math.min(99, Math.round((h.k / 1.5) + (h.m * 8)) + 15);
+                return `
+                    <div class="potm-card-small">
+                        <div class="month-ribbon">${h.mes}</div>
+                        <div class="card-top-small">
+                            <div class="rating-col-small">
+                                <span class="rat-small">${rating}</span>
+                                <span class="flag-small">${h.p}</span>
+                            </div>
+                            <img src="${h.f}" onerror="this.src='img/default.png'" class="img-small">
+                        </div>
+                        <h3>${h.n}</h3>
+                        <div class="potm-stats-small">
+                            <span>⚔️ ${h.k} KILLS</span>
+                            <span>🏆 ${h.m} MVP</span>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        window.onload = renderizarPOTM;
+    </script>
+</body>
+</html>

@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IA Predicción | DC ESPORT</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/ia.css">
+</head>
+<body>
+
+    <nav class="sidebar">
+        <div class="sidebar-header">
+            <img src="img/red.png" alt="Logo DC">
+            <span>DC ESPORT</span>
+        </div>
+        <ul class="nav-menu">
+
+            <li class="active" onclick="cambiarSeccion('inicio')">🏠 INICIO</li>
+            <li onclick="window.location.href='area.html'">🏆 ÁREA COMPETITIVA</li>
+            <li onclick="window.location.href='top.html'">📈 TOP 5 MUNDIAL</li>
+            <li onclick="window.location.href='pack.html'">💎 ABRIR PACK</li>
+            <li onclick="window.location.href='evolucion.html'">📊 EVOLUCIÓN</li>
+            <li onclick="window.location.href='tabla.html'">🌎 TABLA SUDAMÉRICA</li>
+            <li onclick="window.location.href='mercado.html'">💰 MERCADO</li>
+            <li onclick="window.location.href='balon.html'">👑 BALÓN DE ORO</li>
+            <li onclick="window.location.href='carrera.html'">🏟 MODO CARRERA</li>
+            <li onclick="window.location.href='rooster.html'">👥 ROOSTER</li>
+            <li onclick="window.location.href='mes.html'">⭐ JUGADOR DEL MES</li>
+        </ul>
+    </nav>
+
+    <main class="main-content">
+        <header class="top-bar">
+            <h2>🤖 MOTOR DE INTELIGENCIA ARTIFICIAL</h2>
+            <div class="user-stats">
+                <span style="color:#00ffff;">SISTEMA EN LÍNEA</span>
+            </div>
+        </header>
+
+        <section class="ia-section">
+            
+            <div id="ai-control-panel" class="ai-panel">
+                <div class="radar-container">
+                    <div class="radar"></div>
+                    <img src="img/red.png" class="radar-logo" alt="DC Logo">
+                </div>
+                <h3>SISTEMA DE PREDICCIÓN DC-NET</h3>
+                <p>El algoritmo analizará el historial de rendimiento, Kills y MVPs desde 2019 hasta 2026 para predecir al próximo campeón.</p>
+                <button class="btn-scan" onclick="iniciarAnalisisIA()">INICIAR ESCANEO GLOBAL</button>
+            </div>
+
+            <div id="ai-loading" class="ai-loading" style="display: none;">
+                <div class="loader-circle"></div>
+                <h3 id="loading-text">PROCESANDO DATOS HISTÓRICOS...</h3>
+                <div class="progress-bar-container">
+                    <div id="progress-fill" class="progress-fill"></div>
+                </div>
+            </div>
+
+            <div id="ai-result" class="ai-result" style="display: none;">
+                <h2 style="color: #00ffff; text-shadow: 0 0 10px #00ffff; margin-bottom: 20px;">ANÁLISIS COMPLETADO</h2>
+                
+                <div class="result-card">
+                    <div class="ai-match-percentage">
+                        <span id="ai-confidence">98%</span>
+                        <small>PROBABILIDAD</small>
+                    </div>
+                    
+                    <div class="predicted-player-img">
+                        <img id="pred-foto" src="" onerror="this.src='img/default.png'">
+                    </div>
+                    
+                    <h3 id="pred-nombre" class="pred-name">CARGANDO...</h3>
+                    <p id="pred-pais" class="pred-country"></p>
+                    
+                    <div class="ai-reason">
+                        <h4>📝 REPORTE DEL ALGORITMO:</h4>
+                        <p id="pred-motivo">Basado en un rendimiento sostenido y un crecimiento exponencial en la tasa de eliminaciones.</p>
+                    </div>
+                </div>
+                
+                <button class="btn-scan" style="margin-top: 30px;" onclick="reiniciarIA()">NUEVO ANÁLISIS</button>
+            </div>
+
+        </section>
+    </main>
+
+    <script>
+        // DATOS DEL HISTORIAL
+        const datosEsport = {
+            2026: [
+                {n: "DC VALENTINA", m: 10, k: 236, p: "🇦🇷", f: "img/valentina.jpg"},
+                {n: "DC ELAR", m: 8, k: 202, p: "🇵🇪", f: "img/elar.jpg"},
+                {n: "DC DAGXZK1NG", m: 8, k: 124, p: "🇨🇱", f: "img/dago.jpg"},
+                {n: "DC MARLON", m: 7, k: 119, p: "🇵🇪", f: "img/marlon.jpg"},
+                {n: "DC CULIÉ", m: 7, k: 78, p: "🇦🇷", f: "img/benja.jpg"},                               
+                {n: "DC SEBAS JE", m: 6, k: 54, p: "🇵🇪", f: "img/sebas.jpg"},
+                {n: "DC ZAMIRA", m: 4, k: 90, p: "🇦🇷", f: "img/zamira.jpg"},
+                {n: "DC JXSU", m: 4, k: 76, p: "🇨🇱", f: "img/jesu.jpg"},
+                {n: "DC DRAGO", m: 4, k: 49, p: "🇵🇪", f: "img/drago.jpg"},
+                {n: "DC IZZA", m: 3, k: 53, p: "🇨🇱", f: "img/izza.jpg"}, 
+                {n: "DC VIDAL", m: 3, k: 42, p: "🇺🇾", f: "img/vidal.jpg"},                              
+                {n: "DC KEVIN", m: 2, k: 54, p: "🇦🇷", f: "img/kevin.jpg"},
+                {n: "DC MAXXI", m: 2, k: 22, p: "🇦🇷", f: "img/maxii.jpg"},  
+                {n: "DC XENEIZE", m: 2, k: 21, p: "🇦🇷", f: "img/brandon.jpg"},                                             
+                {n: "DC VICTXRIA", m: 2, k: 14, p: "🇻🇪", f: "img/victoria.jpeg"},
+                {n: "DC LXTA", m: 1, k: 24, p: "🇵🇪", f: "img/lita.jpg"},
+                {n: "DC MAY", m: 1, k: 23, p: "🇦🇷", f: "img/may.jpg"},
+                {n: "DC MIRAZAXR", m: 1, k: 19, p: "🇦🇷", f: "img/miraza.jpg"},                              
+                {n: "DC FEDEX", m: 1, k: 9, p: "🇦🇷", f: "img/fede.jpeg"},
+                {n: "DC JEAN", m: 1, k: 9, p: "🇵🇪", f: "img/jean.jpg"},
+                {n: "DC POCHI", m: 1, k: 8, p: "🇦🇷", f: "img/joha.jpg"},               
+                {n: "DC DANNA", m: 1, k: 7, p: "🇨🇱", f: "img/dana.jpeg"},
+                {n: "DC REZE", m: 1, k: 4, p: "🇧🇴", f: "img/ruth.jpg"}
+            ],
+            2025: [
+                {n: "DC FACU", m: 5, k: 80, p: "🇦🇷", f: "img/facu.jpg"},
+                {n: "DC ELAR", m: 4, k: 72, p: "🇵🇪", f: "img/elar.jpg"},
+                {n: "DC MARLON", m: 2, k: 59, p: "🇵🇪", f: "img/marlon.jpg"},
+                {n: "DC VIDAL", m: 2, k: 27, p: "🇺🇾", f: "img/vidal.jpg"},
+                {n: "DC REYES", m: 2, k: 40, p: "🇵🇪", f: "img/reyes.jpg"},
+                {n: "DC CEJAS", m: 2, k: 37, p: "🇵🇪", f: "img/cejas.jpg"},
+                {n: "DC VEXI", m: 2, k: 35, p: "🇧🇴", f: "img/vexi.jpg"},
+                {n: "DC JDIEGO", m: 1, k: 16, p: "🇵🇪", f: "img/diego.jpg"},
+                {n: "DC JESU", m: 1, k: 15, p: "🇨🇱", f: "img/jesu.jpg"},
+                {n: "DC SEBAS JE", m: 1, k: 14, p: "🇵🇪", f: "img/sebas.jpg"},
+                {n: "DC LIZ", m: 1, k: 14, p: "🇵🇾", f: "img/liz.jpg"},
+                {n: "DC SAYU", m: 1, k: 13, p: "🇵🇪", f: "img/sayu.jpg"},
+                {n: "DC MAU", m: 1, k: 10, p: "🇦🇷", f: "img/mau.jpg"},
+                {n: "DC PERSEO", m: 1, k: 6, p: "🇵🇪", f: "img/johan.jpg"},
+                {n: "DC TYRONE", m: 1, k: 6, p: "🇨🇱", f: "img/tyron.jpg"}
+            ],
+            2024: [
+                {n: "DC MARLON", m: 5, k: 102, p: "🇵🇪", f: "img/marlon.jpg"},
+                {n: "DC VIDAL", m: 5, k: 63, p: "🇺🇾", f: "img/vidal.jpg"},
+                {n: "DC PARDO", m: 3, k: 42, p: "🇧🇴", f: "img/pardo.jpg"},
+                {n: "DC JOAKITO", m: 3, k: 32, p: "🇨🇱", f: "img/juakito.jpg"},
+                {n: "DC PATÓN", m: 2, k: 38, p: "🇵🇪", f: "img/caleb.jpg"},
+                {n: "DC DRAGO", m: 2, k: 24, p: "🇵🇪", f: "img/drago.jpg"},
+                {n: "DC MAURI", m: 1, k: 16, p: "🇦🇷", f: "img/mauri.jpg"},
+                {n: "DC DANIXX", m: 1, k: 15, p: "🇵🇪", f: "img/danix.jpg"},
+                {n: "DC KETIÑA", m: 1, k: 15, p: "🇦🇷", f: "img/jairus.jpg"},
+                {n: "DC JDIEGO", m: 1, k: 13, p: "🇦🇷", f: "img/diego.jpg"},
+                {n: "DC PANDA", m: 1, k: 11, p: "🇧🇴", f: "img/panda.jpg"},
+                {n: "DC MATEO", m: 1, k: 11, p: "🇦🇷", f: "img/mateo.jpg"},
+                {n: "DC EXSON", m: 1, k: 10, p: "🇵🇪", f: "img/exson.jpg"},
+                {n: "DC BOO", m: 1, k: 8, p: "🇦🇷", f: "img/boo.jpg"},
+                {n: "DC MANU", m: 1, k: 7, p: "🇦🇷", f: "img/manu.jpg"},
+                {n: "DC WALYY", m: 1, k: 6, p: "🇵🇪", f: "img/waly.jpg"},
+                {n: "DC ARLEK", m: 1, k: 4, p: "🇵🇪", f: "img/arlek.jpg"}
+            ],
+            2023: [
+                {n: "DC MARLON", m: 6, k: 130, p: "🇵🇪", f: "img/marlon.jpg"},
+                {n: "DC PATÓN", m: 3, k: 38, p: "🇵🇪", f: "img/caleb.jpg"},
+                {n: "DC WALYY", m: 2, k: 37, p: "🇵🇪", f: "img/waly.jpg"},
+                {n: "DC KCHA GRINGAS", m: 2, k: 42, p: "🇵🇪", f: "img/gringas.jpg"},
+                {n: "DC SAYU", m: 2, k: 24, p: "🇵🇪", f: "img/sayu.jpg"},
+                {n: "DC GARCIA", m: 2, k: 20, p: "🇵🇾", f: "img/garcia.jpg"},
+                {n: "DC ÑENGO", m: 2, k: 24, p: "🇦🇷", f: "img/ñengo.jpg"},
+                {n: "DC FERCHU", m: 1, k: 31, p: "🇨🇱", f: "img/ferchu.jpg"},
+                {n: "DC DREW", m: 1, k: 30, p: "🇵🇪", f: "img/drew.jpg"},
+                {n: "DC REYES", m: 1, k: 28, p: "🇵🇪", f: "img/reyes.jpg"},
+                {n: "DC SERGI", m: 1, k: 25, p: "🇦🇷", f: "img/sergi.jpg"},
+                {n: "DC PERSEO", m: 1, k: 20, p: "🇵🇪", f: "img/johan.jpg"},
+                {n: "DC MAURI", m: 1, k: 17, p: "🇦🇷", f: "img/mauri.jpg"},
+                {n: "DC MAY", m: 1, k: 7, p: "🇦🇷", f: "img/may.jpg"},
+                {n: "DC MORENO", m: 1, k: 6, p: "🇦🇷", f: "img/moreno.jpg"}
+            ],
+            2022: [
+                {n: "DC MAURI", m: 2, k: 19, p: "🇦🇷", f: "img/mauri.jpg"},
+                {n: "DC CATALINA", m: 2, k: 12, p: "🇨🇱", f: "img/cata.jpg"},
+                {n: "DC PORTARO", m: 1, k: 22, p: "🇵🇪", f: "img/dc.jpg"},
+                {n: "DC MARLON", m: 1, k: 17, p: "🇵🇪", f: "img/marlon.jpg"},
+                {n: "DC ALONSO", m: 1, k: 7, p: "🇵🇪", f: "img/dc.jpg"}
+            ],
+            2021: [
+                {n: "DC PORTARO", m: 8, k: 101, p: "🇵🇪", f: "img/dc.jpg"},
+                {n: "DC ALONSO", m: 6, k: 87, p: "🇵🇪", f: "img/dc.jpg"},
+                {n: "DC MARLON", m: 4, k: 52, p: "🇵🇪", f: "img/marlon.jpg"},
+                {n: "DC PERSEO", m: 2, k: 32, p: "🇵🇪", f: "img/johan.jpg"},
+                {n: "DC PATÓN", m: 1, k: 8, p: "🇵🇪", f: "img/caleb.jpg"}
+            ],
+            2020: [
+                {n: "DC PATÓN", m: 6, k: 71, p: "🇵🇪", f: "img/caleb.jpg"},
+                {n: "DC HADES", m: 5, k: 59, p: "🇵🇪", f: "img/hades.jpg"},
+                {n: "DC MARIO", m: 5, k: 63, p: "🇨🇱", f: "img/mario.jpg"},
+                {n: "DC PERSEO", m: 4, k: 46, p: "🇵🇪", f: "img/johan.jpg"},
+                {n: "DC PORTARO", m: 2, k: 32, p: "🇵🇪", f: "img/dc.jpg"},
+                {n: "DC MARJORY", m: 2, k: 29, p: "🇵🇪", f: "img/marjory.jpg"},
+                {n: "DC ANDREA", m: 2, k: 21, p: "🇵🇪", f: "img/andrea.jpg"},
+                {n: "DC MEIER", m: 2, k: 15, p: "🇵🇪", f: "img/meier.jpg"},
+                {n: "DC NOVOA", m: 1, k: 11, p: "🇵🇪", f: "img/cele.jpg"},
+                {n: "DC JOSUE", m: 1, k: 9, p: "🇵🇪", f: "img/josue.jpg"}
+            ],
+            2019: [
+                {n: "DC HADES", m: 3, k: 31, p: "🇵🇪", f: "img/hades.jpg"},
+                {n: "DC PATÓN", m: 3, k: 29, p: "🇵🇪", f: "img/caleb.jpg"},
+                {n: "DC JOSUE", m: 2, k: 18, p: "🇵🇪", f: "img/josue.jpg"},
+                {n: "DC MARIO", m: 1, k: 8, p: "🇨🇱", f: "img/mario.jpg"}
+            ]
+        };
+
+        const voz = window.speechSynthesis;
+
+        function narrar(texto) {
+            let speech = new SpeechSynthesisUtterance(texto);
+            speech.lang = "es-ES";
+            speech.rate = 1.1; // Un poco más rápido para sonar como IA
+            speech.pitch = 0.9;
+            voz.speak(speech);
+        }
+
+        function iniciarAnalisisIA() {
+            document.getElementById("ai-control-panel").style.display = "none";
+            document.getElementById("ai-loading").style.display = "flex";
+            
+            narrar("Iniciando escaneo de base de datos. Procesando estadísticas desde 2019.");
+
+            let barra = document.getElementById("progress-fill");
+            let texto = document.getElementById("loading-text");
+            let progreso = 0;
+
+            let intervalo = setInterval(() => {
+                progreso += Math.floor(Math.random() * 15) + 5;
+                if(progreso > 100) progreso = 100;
+                
+                barra.style.width = progreso + "%";
+
+                if (progreso > 30 && progreso < 60) texto.innerText = "EVALUANDO ALGORITMO DE KILLS...";
+                if (progreso >= 60 && progreso < 90) texto.innerText = "CRUZANDO DATOS DE MVP...";
+                if (progreso === 100) {
+                    clearInterval(intervalo);
+                    texto.innerText = "PREDICCIÓN ENCONTRADA";
+                    setTimeout(mostrarResultadoIA, 1000);
+                }
+            }, 500);
+        }
+
+        function mostrarResultadoIA() {
+            // Lógica de cálculo de la IA
+            let ranking = {};
+            Object.keys(datosEsport).forEach(año => {
+                datosEsport[año].forEach(j => {
+                    if(!ranking[j.n]) ranking[j.n] = { ...j, score: 0 };
+                    // Algoritmo de predicción: Kills + (MVPs * 20)
+                    ranking[j.n].score += (j.k + j.m * 20);
+                });
+            });
+
+            // Encontrar al mejor jugador
+            let prediccion = Object.values(ranking).sort((a,b) => b.score - a.score)[0];
+            
+            // Generar probabilidad aleatoria realista (85% a 99%)
+            let probabilidad = Math.floor(Math.random() * (99 - 85 + 1)) + 85;
+
+            // Actualizar DOM
+            document.getElementById("ai-loading").style.display = "none";
+            document.getElementById("ai-result").style.display = "flex";
+
+            document.getElementById("pred-foto").src = prediccion.f;
+            document.getElementById("pred-nombre").innerText = prediccion.n;
+            document.getElementById("pred-pais").innerText = prediccion.p;
+            document.getElementById("ai-confidence").innerText = probabilidad + "%";
+            
+            document.getElementById("pred-motivo").innerText = `El modelo predictivo indica que ${prediccion.n} tiene una puntuación algorítmica de ${prediccion.score} puntos. Su consistencia en el campo de batalla lo posiciona como el candidato principal para el próximo campeonato.`;
+
+            narrar(`Análisis completado. La inteligencia artificial predice con un ${probabilidad} porciento de seguridad, que el próximo campeón será: ${prediccion.n}.`);
+        }
+
+        function reiniciarIA() {
+            window.speechSynthesis.cancel();
+            document.getElementById("ai-result").style.display = "none";
+            document.getElementById("progress-fill").style.width = "0%";
+            document.getElementById("loading-text").innerText = "PROCESANDO DATOS HISTÓRICOS...";
+            document.getElementById("ai-control-panel").style.display = "flex";
+        }
+    </script>
+</body>
+</html>

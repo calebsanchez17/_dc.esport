@@ -1,0 +1,120 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Orbitron', sans-serif;
+}
+
+body {
+    background: #0b0e14;
+    color: white;
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* SIDEBAR */
+.sidebar {
+    width: 280px;
+    background: #121620;
+    border-right: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.sidebar-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding-bottom: 30px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.sidebar-header img {
+    width: 45px;
+    filter: drop-shadow(0 0 5px #ff0000);
+}
+
+.nav-menu {
+    list-style: none;
+    margin-top: 20px;
+    flex-grow: 1;
+}
+
+.nav-menu li {
+    padding: 14px 18px;
+    margin-bottom: 5px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 13px;
+    color: #a0a0a0;
+    transition: 0.3s;
+}
+
+.nav-menu li:hover, .nav-menu li.active {
+    background: rgba(255, 255, 255, 0.05);
+    color: #00aaff;
+    padding-left: 25px;
+}
+
+.btn-especial {
+    border: 1px solid gold !important;
+    color: gold !important;
+    margin-top: 20px !important;
+}
+
+.btn-especial:hover {
+    background: gold !important;
+    color: black !important;
+}
+
+/* CONTENIDO */
+.main-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.top-bar {
+    padding: 20px 40px;
+    background: #0b0e14;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.stats-rapidas span {
+    margin-left: 20px;
+    background: rgba(255,255,255,0.05);
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-size: 14px;
+}
+
+.content-view {
+    padding: 40px;
+    overflow-y: auto;
+    background: radial-gradient(circle at top right, #1a1f2e, #0b0e14);
+    height: 100%;
+}
+
+.welcome-card {
+    background: rgba(255, 255, 255, 0.03);
+    padding: 40px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: center;
+}
+
+.sidebar-footer button {
+    width: 100%;
+    padding: 12px;
+    background: #ff4d4d;
+    border: none;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+}

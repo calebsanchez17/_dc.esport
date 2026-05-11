@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | DC ESPORT</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/inicio.css">
+</head>
+<body>
+
+    <nav class="sidebar">
+        <div class="sidebar-header">
+            <img src="img/red.png" alt="Logo DC">
+            <span>DC ESPORT</span>
+        </div>
+
+        <ul class="nav-menu">
+            <li class="active" onclick="cambiarSeccion('inicio')">🏠 INICIO</li>
+            <li onclick="window.location.href='area.html'">🏆 ÁREA COMPETITIVA</li>
+            <li onclick="window.location.href='top.html'">📈 TOP 5 MUNDIAL</li>
+            <li onclick="window.location.href='pack.html'">💎 ABRIR PACK</li>
+            <li onclick="window.location.href='ia.html'">🤖 IA PREDICCIÓN</li>
+            <li onclick="window.location.href='evolucion.html'">📊 EVOLUCIÓN</li>
+            <li onclick="window.location.href='tabla.html'">🌎 TABLA SUDAMÉRICA</li>
+            <li onclick="window.location.href='mercado.html'">💰 MERCADO</li>
+            <li onclick="window.location.href='oro.html'">👑 BALÓN DE ORO</li>
+            <li onclick="window.location.href='mes.html'">⭐ JUGADOR DEL MES</li>
+            <li onclick="window.location.href='carrera.html'">🏟 MODO CARRERA</li>
+            <li onclick="window.location.href='rooster.html'">👥 ROOSTERS</li>
+        </ul>
+
+        <div class="sidebar-footer">
+            <button onclick="cerrarSesion()">CERRAR SESIÓN</button>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <header class="top-bar">
+            <h2 id="titulo-seccion">CENTRO DE MANDO</h2>
+            <div class="user-stats">
+                <span>PRESUPUESTO: <b id="coinDisplay" style="color:gold;">1000000</b> 💰</span>
+                <span class="user-profile">👤 FUNDADOR CALEB</span>
+            </div>
+        </header>
+
+        <section id="contenedor-dinamico" class="content-view">
+            
+            <div class="welcome-hero">
+                <div class="hero-content">
+                    <h1>SISTEMA CENTRAL <span class="text-red">DC ESPORT</span></h1>
+                    <p>Bienvenido al panel de gestión. La temporada 2026 está en curso. Supervisa a tus jugadores, gestiona el mercado y analiza el rendimiento global.</p>
+                    <div class="system-status">
+                        <span class="status-dot"></span> ESTADO DEL SERVIDOR: ÓPTIMO
+                    </div>
+                </div>
+                <div class="hero-logo">
+                    <img src="img/red.png" alt="DC Logo">
+                </div>
+            </div>
+
+            <div class="dashboard-stats">
+                <div class="stat-box">
+                    <div class="stat-icon">🎮</div>
+                    <div class="stat-info">
+                        <h3>TEMPORADA</h3>
+                        <p>2026 (ACTIVA)</p>
+                    </div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-icon">👥</div>
+                    <div class="stat-info">
+                        <h3>PLANTILLA</h3>
+                        <p>4 ROSTERS (34 PROS)</p>
+                    </div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-icon">🏆</div>
+                    <div class="stat-info">
+                        <h3>TÍTULOS GLOBALES</h3>
+                        <p>7 BALONES / 232 MVPs</p>
+                    </div>
+                </div>
+            </div>
+
+            <h3 class="section-title">⚡ ACCESOS RÁPIDOS</h3>
+            <div class="quick-actions-grid">
+                
+                <div class="action-card" onclick="window.location.href='rooster.html'">
+                    <div class="action-bg" style="background-image: url('img/red.png');"></div>
+                    <div class="action-content">
+                        <h4>SQUADS</h4>
+                        <p>Gestiona los Rosters Red, White, Black y Fem.</p>
+                    </div>
+                </div>
+
+                <div class="action-card" onclick="window.location.href='mercado.html'">
+                    <div class="action-bg" style="background: linear-gradient(45deg, #000, #ffdf00); opacity: 0.1;"></div>
+                    <div class="action-content">
+                        <h4>MERCADO</h4>
+                        <p>Ficha nuevas leyendas con tu presupuesto.</p>
+                    </div>
+                </div>
+
+                <div class="action-card" onclick="window.location.href='carrera.html'">
+                    <div class="action-bg" style="background: linear-gradient(45deg, #000, #00ff88); opacity: 0.1;"></div>
+                    <div class="action-content">
+                        <h4>SCOUTING</h4>
+                        <p>Analiza el perfil y valor de cualquier jugador.</p>
+                    </div>
+                </div>
+
+                <div class="action-card" onclick="window.location.href='ia.html'">
+                    <div class="action-bg" style="background: linear-gradient(45deg, #000, #00ffff); opacity: 0.1;"></div>
+                    <div class="action-content">
+                        <h4>IA PREDICCIÓN</h4>
+                        <p>Consulta al algoritmo sobre el próximo campeón.</p>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+    </main>
+
+    <script src="js/main.js"></script>
+    <script>
+        // Sincronizar monedas si las tienes en localStorage
+        let monedas = localStorage.getItem("monedasDC") ? parseInt(localStorage.getItem("monedasDC")) : 5000;
+        document.getElementById("coinDisplay").innerText = monedas;
+
+        function cerrarSesion() {
+            // Lógica para cerrar sesión, por ejemplo:
+            window.location.href = "index.html"; // O la página de login que tengas
+        }
+    </script>
+</body>
+</html>

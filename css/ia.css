@@ -1,0 +1,226 @@
+/* =========================================
+   ESTILOS EXCLUSIVOS: IA PREDICCIÓN
+========================================= */
+
+.ia-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: calc(100vh - 100px);
+    text-align: center;
+}
+
+/* 1. PANEL DE CONTROL (RADAR) */
+.ai-panel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: rgba(0, 255, 255, 0.02);
+    border: 1px solid rgba(0, 255, 255, 0.1);
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 0 30px rgba(0, 255, 255, 0.05);
+}
+
+.radar-container {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 2px solid #00ffff;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 30px;
+    background: rgba(0, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.radar {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 150px;
+    height: 150px;
+    background: conic-gradient(from 0deg at 0% 0%, transparent 270deg, rgba(0, 255, 255, 0.5) 360deg);
+    transform-origin: 0% 0%;
+    animation: scan 2s linear infinite;
+}
+
+@keyframes scan {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.radar-logo {
+    width: 60px;
+    z-index: 10;
+    opacity: 0.8;
+}
+
+.ai-panel p {
+    color: #888;
+    max-width: 400px;
+    margin: 15px 0 30px;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.btn-scan {
+    padding: 15px 30px;
+    background: transparent;
+    color: #00ffff;
+    border: 2px solid #00ffff;
+    border-radius: 5px;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 900;
+    font-size: 14px;
+    cursor: pointer;
+    transition: 0.3s;
+    letter-spacing: 2px;
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
+}
+
+.btn-scan:hover {
+    background: #00ffff;
+    color: #000;
+    box-shadow: 0 0 30px rgba(0, 255, 255, 0.6);
+}
+
+/* 2. PANTALLA DE CARGA */
+.ai-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.loader-circle {
+    width: 60px;
+    height: 60px;
+    border: 4px solid transparent;
+    border-top: 4px solid #00ffff;
+    border-right: 4px solid #00ffff;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 20px;
+}
+
+@keyframes spin {
+    100% { transform: rotate(360deg); }
+}
+
+#loading-text {
+    color: #00ffff;
+    letter-spacing: 3px;
+    margin-bottom: 20px;
+    font-size: 14px;
+}
+
+.progress-bar-container {
+    width: 300px;
+    height: 10px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    width: 0%;
+    background: #00ffff;
+    box-shadow: 0 0 10px #00ffff;
+    transition: width 0.4s ease-out;
+}
+
+/* 3. RESULTADO DE LA IA */
+.ai-result {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes popIn {
+    0% { transform: scale(0.8); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.result-card {
+    background: linear-gradient(180deg, rgba(0, 40, 50, 0.9), rgba(5, 10, 15, 0.9));
+    border: 1px solid #00ffff;
+    border-radius: 20px;
+    padding: 40px;
+    width: 350px;
+    position: relative;
+    box-shadow: 0 15px 40px rgba(0, 255, 255, 0.2);
+}
+
+.ai-match-percentage {
+    position: absolute;
+    top: -20px;
+    right: -20px;
+    background: #000;
+    border: 2px solid #00ffff;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.4);
+}
+
+.ai-match-percentage span {
+    color: #00ffff;
+    font-size: 22px;
+    font-weight: 900;
+}
+
+.ai-match-percentage small {
+    font-size: 8px;
+    color: #888;
+}
+
+.predicted-player-img img {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid #00ffff;
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+    margin-bottom: 20px;
+}
+
+.pred-name {
+    font-size: 24px;
+    color: white;
+    letter-spacing: 2px;
+    margin-bottom: 5px;
+}
+
+.pred-country {
+    font-size: 20px;
+    margin-bottom: 25px;
+}
+
+.ai-reason {
+    background: rgba(0, 0, 0, 0.5);
+    padding: 15px;
+    border-radius: 10px;
+    border-left: 3px solid #00ffff;
+    text-align: left;
+}
+
+.ai-reason h4 {
+    color: #00ffff;
+    font-size: 10px;
+    margin-bottom: 8px;
+}
+
+.ai-reason p {
+    font-size: 12px;
+    color: #aaa;
+    line-height: 1.5;
+}

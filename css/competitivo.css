@@ -1,0 +1,92 @@
+/* DISEÑO DE GRILLA */
+#grid-competitivo {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 30px;
+}
+
+/* CABECERAS DE TEMPORADA */
+.temporada-header {
+    grid-column: 1 / -1;
+    color: #ff0000;
+    font-size: 24px;
+    padding: 15px;
+    margin-top: 40px;
+    background: rgba(255, 0, 0, 0.05);
+    border-left: 5px solid #ff0000;
+    letter-spacing: 5px;
+}
+
+/* TARJETAS DE JUGADOR */
+.player-card {
+    background: linear-gradient(145deg, #121620, #0b0e14);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    padding: 25px;
+    text-align: center;
+    transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+}
+
+.player-card:hover {
+    transform: translateY(-10px);
+    border-color: #00aaff;
+    box-shadow: 0 15px 35px rgba(0, 170, 255, 0.2);
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.rating {
+    font-size: 28px;
+    font-weight: 900;
+    color: gold;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
+
+.img-wrapper {
+    width: 120px;
+    height: 120px;
+    margin: 10px auto;
+    border-radius: 50%;
+    border: 3px solid #00aaff;
+    padding: 5px;
+    background: #000;
+}
+
+.img-wrapper img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.player-card h3 {
+    margin: 15px 0;
+    font-size: 16px;
+    letter-spacing: 2px;
+}
+
+.stats-row {
+    display: flex;
+    justify-content: space-around;
+    background: rgba(255, 255, 255, 0.03);
+    padding: 12px;
+    border-radius: 12px;
+}
+
+.stat-group span {
+    display: block;
+    font-size: 9px;
+    color: #666;
+    margin-bottom: 3px;
+}
+
+.stat-group strong {
+    font-size: 18px;
+    color: #00aaff;
+}
