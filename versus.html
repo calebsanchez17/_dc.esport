@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Torneo Mundial | DC ESPORT</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/versus.css">
+</head>
+<body>
+
+    <audio id="bg-music" loop>
+        <source src="phonk1.mp3" type="audio/mpeg">
+    </audio>
+
+    <nav class="sidebar">
+        <div class="sidebar-header">
+            <img src="img/red.png" alt="Logo DC">
+            <span>DC ESPORT</span>
+        </div>
+        <ul class="nav-menu">
+            <li onclick="window.location.href='inicio.html'">🏠 INICIO</li>
+            <li onclick="window.location.href='area.html'">🏆 ÁREA COMPETITIVA</li>
+            <li onclick="window.location.href='top.html'">📈 TOP 5 MUNDIAL</li>
+            <li onclick="window.location.href='pack.html'">💎 ABRIR PACK</li>
+            <li onclick="window.location.href='ia.html'">🤖 IA PREDICCIÓN</li>
+            <li onclick="window.location.href='evolucion.html'">📊 EVOLUCIÓN</li>
+            <li onclick="window.location.href='tabla.html'">🌎 TABLA SUDAMÉRICA</li>
+            <li onclick="window.location.href='mercado.html'">💰 MERCADO</li>
+            <li onclick="window.location.href='oro.html'">👑 BALÓN DE ORO</li>
+            <li onclick="window.location.href='mes.html'">⭐ JUGADOR DEL MES</li>
+            <li onclick="window.location.href='carrera.html'">🏟 MODO CARRERA</li>
+            <li onclick="window.location.href='rooster.html'">👥 ROOSTERS</li>
+            <li class="active btn-especial">⚔️ TORNEO 4V4</li>
+        </ul>
+    </nav>
+
+    <main class="main-content">
+        <header class="top-bar">
+            <h2>⚔️ CHAMPIONS BRACKET: 16 EQUIPOS</h2>
+            <div class="user-stats">
+                <button id="btn-music" onclick="toggleMusic()">🔊 MÚSICA ON</button>
+                <span style="color:#00ffff; margin-left:15px;" id="header-prize">PREMIO MAYOR: 10000 💰</span>
+            </div>
+        </header>
+
+        <section class="versus-section">
+            
+            <div id="draft-phase" class="draft-container">
+                <div class="draft-header">
+                    <h3>TU INVENTARIO DE CARTAS</h3>
+                    <p>Selecciona 4 cartas para tu escuadra. Elige a tu capitán y la dificultad.</p>
+                    <div class="draft-counter">SELECCIONADOS: <b id="draft-count">0</b> / 4</div>
+                </div>
+                
+                <div id="draft-grid" class="draft-grid"></div>
+
+                <div id="tourney-config" class="tournament-config hidden">
+                    <h4 class="config-title">⚙️ CONFIGURACIÓN DE INSCRIPCIÓN</h4>
+                    <div class="config-row">
+                        <div class="config-box">
+                            <label>DIFICULTAD DEL TORNEO:</label>
+                            <div class="diff-buttons">
+                                <button class="diff-btn" id="btn-diff-easy" onclick="setDificultad('easy')">FÁCIL</button>
+                                <button class="diff-btn active" id="btn-diff-normal" onclick="setDificultad('normal')">NORMAL</button>
+                                <button class="diff-btn" id="btn-diff-hard" onclick="setDificultad('hard')">DIFÍCIL</button>
+                            </div>
+                            <p id="diff-desc" class="diff-desc">Premio: 10,000 💰 | Bot: Nivel Base</p>
+                        </div>
+                        <div class="config-box">
+                            <label>ELEGIR CAPITÁN (👑 +20% PWR):</label>
+                            <select id="captain-select" class="cap-select"></select>
+                        </div>
+                    </div>
+                    <button id="btn-start-tournament" class="btn-battle" onclick="iniciarTorneo()">INSCRIBIR EQUIPO 🏆</button>
+                </div>
+            </div>
+
+            <div id="bracket-phase" class="bracket-view hidden">
+                <h3 id="bracket-stage-title" class="bracket-title">LLAVES DEL TORNEO</h3>
+                
+                <div class="bracket-layout">
+                    <div class="bracket-col col-16" id="b-col-left-1"></div>
+                    <div class="bracket-col col-8" id="b-col-left-2"></div>
+                    <div class="bracket-col col-4" id="b-col-left-3"></div>
+                    
+                    <div class="bracket-center">
+                        <img src="img/red.png" class="trophy-img" alt="Copa">
+                        <button id="btn-to-arena" class="btn-battle btn-gold mt-20" onclick="entrarALaArena()">JUGAR MI PARTIDO ⚔️</button>
+                        <button id="btn-view-stats" class="btn-battle btn-blue hidden mt-20" onclick="mostrarEstadisticasFinales()">CEREMONIA FINAL 🏆</button>
+                    </div>
+
+                    <div class="bracket-col col-4" id="b-col-right-3"></div>
+                    <div class="bracket-col col-8" id="b-col-right-2"></div>
+                    <div class="bracket-col col-16" id="b-col-right-1"></div>
+                </div>
+            </div>
+
+            <div id="tournament-phase" class="tournament-container hidden">
+                <div class="hud-scoreboard">
+                    <div class="team-score blue-team">
+                        <span class="team-name">MI ESCUADRA</span>
+                        <span id="score-user" class="score-number">0</span>
+                    </div>
+                    <div class="match-info">
+                        <div id="stage-display" class="stage-text">OCTAVOS DE FINAL</div>
+                        <div id="round-display" class="round-text">PREPARANDO...</div>
+                        <div class="best-of">AL MEJOR DE 13 (GANA CON 7)</div>
+                    </div>
+                    <div class="team-score red-team">
+                        <span id="score-bot" class="score-number">0</span>
+                        <span id="arena-enemy-name" class="team-name">RIVAL IA</span>
+                    </div>
+                </div>
+
+                <div class="battle-arena">
+                    <div id="my-squad" class="squad-column left-squad"></div>
+                    <div class="center-action">
+                        <div class="vs-logo">VS</div>
+                        <button id="btn-play-auto" class="btn-battle" onclick="simularPartidoCompleto()">SIMULAR PARTIDO ⚡</button>
+                        <button id="btn-next-stage" class="btn-battle btn-gold hidden" onclick="volverAlBracket()">VER RESULTADOS ⏭️</button>
+                        <button id="btn-skip-to-end" class="btn-battle btn-red hidden" onclick="simularRestoYMostrarFinal()">VER CAMPEÓN Y STATS 🏆</button>
+                        
+                        <div class="battle-log" id="log-container">
+                            <ul id="log-list" class="log-list"><li>Esperando inicio del partido...</li></ul>
+                        </div>
+                    </div>
+                    <div id="bot-squad" class="squad-column right-squad"></div>
+                </div>
+            </div>
+
+            <div id="global-stats-phase" class="post-match-board hidden">
+                <h3 style="text-align:center; color:gold; margin-bottom:10px; font-size: 28px;">🌟 CEREMONIA DE PREMIACIÓN 🌟</h3>
+                
+                <div class="awards-ceremony">
+                    <div class="award-card champ-card">
+                        <div class="award-icon">🏆</div>
+                        <h5>CAMPEÓN MUNDIAL</h5>
+                        <h3 id="aw-champ-name">CARGANDO...</h3>
+                    </div>
+                    
+                    <div class="award-card mvp-card">
+                        <div class="award-icon">🥇</div>
+                        <h5>MVP DEL TORNEO</h5>
+                        <img id="aw-mvp-img" src="img/default.png" class="aw-pfp">
+                        <h3 id="aw-mvp-name">CARGANDO...</h3>
+                        <span id="aw-mvp-kills">0 KILLS</span>
+                    </div>
+
+                    <div class="award-card best-team-card">
+                        <div class="award-icon">⭐</div>
+                        <h5>EQUIPO MÁS LETAL</h5>
+                        <h3 id="aw-best-team-name">CARGANDO...</h3>
+                        <span id="aw-best-team-kills">0 KILLS TOTALES</span>
+                    </div>
+                </div>
+
+                <div class="divider-line"></div>
+
+                <h3 style="text-align:center; color:#fff; margin-bottom:20px;">📊 REGISTRO GLOBAL DE JUGADORES 📊</h3>
+                <div style="max-height: 300px; overflow-y: auto;">
+                    <table class="mvp-table">
+                        <thead><tr><th>JUGADOR</th><th>EQUIPO</th><th>KILLS TOTALES</th></tr></thead>
+                        <tbody id="global-mvp-tbody"></tbody>
+                    </table>
+                </div>
+                
+                <div style="text-align:center; margin-top:20px;">
+                    <button class="btn-battle btn-red" onclick="location.reload()">NUEVO TORNEO 🔄</button>
+                </div>
+            </div>
+
+        </section>
+    </main>
+
+    <script>
+        // MÚSICA
+        let musicPlaying = false;
+        function toggleMusic() {
+            let audio = document.getElementById("bg-music");
+            let btn = document.getElementById("btn-music");
+            if(musicPlaying) {
+                audio.pause();
+                btn.innerText = "🔇 MÚSICA OFF";
+                btn.style.color = "#aaa";
+                musicPlaying = false;
+            } else {
+                audio.play();
+                btn.innerText = "🔊 MÚSICA ON";
+                btn.style.color = "#00ffff";
+                musicPlaying = true;
+            }
+        }
+
+        // BASE DE DATOS
+        const dbEsport = {
+            2026: [
+                {n: "DC VALENTINA", m: 10, k: 236, p: "🇦🇷", f: "img/valentina.jpg"},
+                {n: "DC ELAR", m: 8, k: 202, p: "🇵🇪", f: "img/elar.jpg"},
+                {n: "DC DAGXZK1NG", m: 8, k: 124, p: "🇨🇱", f: "img/dago.jpg"},
+                {n: "DC MARLON", m: 7, k: 119, p: "🇵🇪", f: "img/marlon.jpg"},
+                {n: "DC CULIÉ", m: 7, k: 78, p: "🇦🇷", f: "img/benja.jpg"},                               
+                {n: "DC SEBAS JE", m: 6, k: 54, p: "🇵🇪", f: "img/sebas.jpg"},
+                {n: "DC ZAMIRA", m: 4, k: 90, p: "🇦🇷", f: "img/zamira.jpg"},
+                {n: "DC JXSU", m: 4, k: 76, p: "🇨🇱", f: "img/jesu.jpg"},
+                {n: "DC DRAGO", m: 4, k: 49, p: "🇵🇪", f: "img/drago.jpg"},
+                {n: "DC IZZA", m: 3, k: 53, p: "🇨🇱", f: "img/izza.jpg"}, 
+                {n: "DC VIDAL", m: 3, k: 42, p: "🇺🇾", f: "img/vidal.jpg"},                              
+                {n: "DC KEVIN", m: 2, k: 54, p: "🇦🇷", f: "img/kevin.jpg"},
+                {n: "DC MAXXI", m: 2, k: 22, p: "🇦🇷", f: "img/maxii.jpg"},  
+                {n: "DC XENEIZE", m: 2, k: 21, p: "🇦🇷", f: "img/brandon.jpg"},                                             
+                {n: "DC VICTXRIA", m: 2, k: 14, p: "🇻🇪", f: "img/victoria.jpeg"},
+                {n: "DC LXTA", m: 1, k: 24, p: "🇵🇪", f: "img/lita.jpg"},
+                {n: "DC MAY", m: 1, k: 23, p: "🇦🇷", f: "img/may.jpg"},
+                {n: "DC MIRAZAXR", m: 1, k: 19, p: "🇦🇷", f: "img/miraza.jpg"},                              
+                {n: "DC FEDEX", m: 1, k: 9, p: "🇦🇷", f: "img/fede.jpeg"},
+                {n: "DC JEAN", m: 1, k: 9, p: "🇵🇪", f: "img/jean.jpg"},
+                {n: "DC POCHI", m: 1, k: 8, p: "🇦🇷", f: "img/joha.jpg"},               
+                {n: "DC DANNA", m: 1, k: 7, p: "🇨🇱", f: "img/dana.jpeg"},
+                {n: "DC REZE", m: 1, k: 4, p: "🇧🇴", f: "img/ruth.jpg"}
+            ],
+            2025: [
+                {n: "DC FACU", m: 5, k: 80, p: "🇦🇷", f: "img/facu.jpg"},
+                {n: "DC ELAR", m: 4, k: 72, p: "🇵🇪", f: "img/elar.jpg"},
+                {n: "DC MARLON", m: 2, k: 59, p: "🇵🇪", f: "img/marlon.jpg"},
+                {n: "DC VIDAL", m: 2, k: 27, p: "🇺🇾", f: "img/vidal.jpg"},
+                {n: "DC REYES", m: 2, k: 40, p: "🇵🇪", f: "img/reyes.jpg"},
+                {n: "DC CEJAS", m: 2, k: 37, p: "🇵🇪", f: "img/cejas.jpg"},
+                {n: "DC VEXI", m: 2, k: 35, p: "🇧🇴", f: "img/vexi.jpg"},
+                {n: "DC JDIEGO", m: 1, k: 16, p: "🇵🇪", f: "img/diego.jpg"},
+                {n: "DC JESU", m: 1, k: 15, p: "🇨🇱", f: "img/jesu.jpg"},
+                {n: "DC SEBAS JE", m: 1, k: 14, p: "🇵🇪", f: "img/sebas.jpg"},
+                {n: "DC LIZ", m: 1, k: 14, p: "🇵🇾", f: "img/liz.jpg"},
+                {n: "DC SAYU", m: 1, k: 13, p: "🇵🇪", f: "img/sayu.jpg"},
+                {n: "DC MAU", m: 1, k: 10, p: "🇦🇷", f: "img/mau.jpg"},
+                {n: "DC PERSEO", m: 1, k: 6, p: "🇵🇪", f: "img/johan.jpg"},
+                {n: "DC TYRONE", m: 1, k: 6, p: "🇨🇱", f: "img/tyron.jpg"}
+            ],
+            2024: [
+                {n: "DC MARLON", m: 5, k: 102, p: "🇵🇪", f: "img/marlon.jpg"},
+                {n: "DC VIDAL", m: 5, k: 63, p: "🇺🇾", f: "img/vidal.jpg"},
+                {n: "DC PARDO", m: 3, k: 42, p: "🇧🇴", f: "img/pardo.jpg"},
+                {n: "DC JOAKITO", m: 3, k: 32, p: "🇨🇱", f: "img/juakito.jpg"},
+                {n: "DC PATÓN", m: 2, k: 38, p: "🇵🇪", f: "img/caleb.jpg"},
+                {n: "DC DRAGO", m: 2, k: 24, p: "🇵🇪", f: "img/drago.jpg"},
+                {n: "DC MAURI", m: 1, k: 16, p: "🇦🇷", f: "img/mauri.jpg"},
+                {n: "DC DANIXX", m: 1, k: 15, p: "🇵🇪", f: "img/danix.jpg"},
+                {n: "DC KETIÑA", m: 1, k: 15, p: "🇦🇷", f: "img/jairus.jpg"},
+                {n: "DC JDIEGO", m: 1, k: 13, p: "🇦🇷", f: "img/diego.jpg"},
+                {n: "DC PANDA", m: 1, k: 11, p: "🇧🇴", f: "img/panda.jpg"},
+                {n: "DC MATEO", m: 1, k: 11, p: "🇦🇷", f: "img/mateo.jpg"},
+                {n: "DC EXSON", m: 1, k: 10, p: "🇵🇪", f: "img/exson.jpg"},
+                {n: "DC BOO", m: 1, k: 8, p: "🇦🇷", f: "img/boo.jpg"},
+                {n: "DC MANU", m: 1, k: 7, p: "🇦🇷", f: "img/manu.jpg"},
+                {n: "DC WALYY", m: 1, k: 6, p: "🇵🇪", f: "img/waly.jpg"},
+                {n: "DC ARLEK", m: 1, k: 4, p: "🇵🇪", f: "img/arlek.jpg"}
+            ],
+            2023: [
+                {n: "DC MARLON", m: 6, k: 130, p: "🇵🇪", f: "img/marlon.jpg"},
+                {n: "DC PATÓN", m: 3, k: 38, p: "🇵🇪", f: "img/caleb.jpg"},
+                {n: "DC WALYY", m: 2, k: 37, p: "🇵🇪", f: "img/waly.jpg"},
+                {n: "DC KCHA GRINGAS", m: 2, k: 42, p: "🇵🇪", f: "img/gringas.jpg"},
+                {n: "DC SAYU", m: 2, k: 24, p: "🇵🇪", f: "img/sayu.jpg"},
+                {n: "DC GARCIA", m: 2, k: 20, p: "🇵🇾", f: "img/garcia.jpg"},
+                {n: "DC ÑENGO", m: 2, k: 24, p: "🇦🇷", f: "img/ñengo.jpg"},
+                {n: "DC FERCHU", m: 1, k: 31, p: "🇨🇱", f: "img/ferchu.jpg"},
+                {n: "DC DREW", m: 1, k: 30, p: "🇵🇪", f: "img/drew.jpg"},
+                {n: "DC REYES", m: 1, k: 28, p: "🇵🇪", f: "img/reyes.jpg"},
+                {n: "DC SERGI", m: 1, k: 25, p: "🇦🇷", f: "img/sergi.jpg"},
+                {n: "DC PERSEO", m: 1, k: 20, p: "🇵🇪", f: "img/johan.jpg"},
+                {n: "DC MAURI", m: 1, k: 17, p: "🇦🇷", f: "img/mauri.jpg"},
+                {n: "DC MAY", m: 1, k: 7, p: "🇦🇷", f: "img/may.jpg"},
+                {n: "DC MORENO", m: 1, k: 6, p: "🇦🇷", f: "img/moreno.jpg"}
+            ],
+            2022: [
+                {n: "DC MAURI", m: 2, k: 19, p: "🇦🇷", f: "img/mauri.jpg"},
+                {n: "DC CATALINA", m: 2, k: 12, p: "🇨🇱", f: "img/cata.jpg"},
+                {n: "DC PORTARO", m: 1, k: 22, p: "🇵🇪", f: "img/dc.jpg"},
+                {n: "DC MARLON", m: 1, k: 17, p: "🇵🇪", f: "img/marlon.jpg"},
+                {n: "DC ALONSO", m: 1, k: 7, p: "🇵🇪", f: "img/dc.jpg"}
+            ],
+            2021: [
+                {n: "DC PORTARO", m: 8, k: 101, p: "🇵🇪", f: "img/dc.jpg"},
+                {n: "DC ALONSO", m: 6, k: 87, p: "🇵🇪", f: "img/dc.jpg"},
+                {n: "DC MARLON", m: 4, k: 52, p: "🇵🇪", f: "img/marlon.jpg"},
+                {n: "DC PERSEO", m: 2, k: 32, p: "🇵🇪", f: "img/johan.jpg"},
+                {n: "DC PATÓN", m: 1, k: 8, p: "🇵🇪", f: "img/caleb.jpg"}
+            ],
+            2020: [
+                {n: "DC PATÓN", m: 6, k: 71, p: "🇵🇪", f: "img/caleb.jpg"},
+                {n: "DC HADES", m: 5, k: 59, p: "🇵🇪", f: "img/hades.jpg"},
+                {n: "DC MARIO", m: 5, k: 63, p: "🇨🇱", f: "img/mario.jpg"},
+                {n: "DC PERSEO", m: 4, k: 46, p: "🇵🇪", f: "img/johan.jpg"},
+                {n: "DC PORTARO", m: 2, k: 32, p: "🇵🇪", f: "img/dc.jpg"},
+                {n: "DC MARJORY", m: 2, k: 29, p: "🇵🇪", f: "img/marjory.jpg"},
+                {n: "DC ANDREA", m: 2, k: 21, p: "🇵🇪", f: "img/andrea.jpg"},
+                {n: "DC MEIER", m: 2, k: 15, p: "🇵🇪", f: "img/meier.jpg"},
+                {n: "DC NOVOA", m: 1, k: 11, p: "🇵🇪", f: "img/cele.jpg"},
+                {n: "DC JOSUE", m: 1, k: 9, p: "🇵🇪", f: "img/josue.jpg"}
+            ],
+            2019: [
+                {n: "DC HADES", m: 3, k: 31, p: "🇵🇪", f: "img/hades.jpg"},
+                {n: "DC PATÓN", m: 3, k: 29, p: "🇵🇪", f: "img/caleb.jpg"},
+                {n: "DC JOSUE", m: 2, k: 18, p: "🇵🇪", f: "img/josue.jpg"},
+                {n: "DC MARIO", m: 1, k: 8, p: "🇨🇱", f: "img/mario.jpg"}
+            ]
+        };
+
+        let todasLasCartas = [];
+        Object.keys(dbEsport).forEach(año => {
+            dbEsport[año].forEach(j => {
+                let pwr = Math.min(99, Math.round((j.k / 2.5) + (j.m * 5)) + 15);
+                todasLasCartas.push({ ...j, año: año, pwr: pwr, idUnico: `${j.n}-${año}` });
+            });
+        });
+
+        const nombresBots = ["SQUAD ALPHA", "TEAM VORTEX", "NINJAS DC", "LOS TITANES", "ESCUADRA OMEGA", "TEAM FÉNIX", "LOBOS DEL SUR", "ESPORTS PRO", "RANGERS DC", "KRAKEN TEAM", "SQUAD BRAVO", "TEAM ONYX", "LOS DEMONIOS", "CYBER SQUAD", "NOVA ESPORTS"];
+
+        // VARIABLES TORNEO
+        let miInventario = [];
+        let seleccionados = [];
+        let llavesTorneo = []; 
+        let etapaIndex = 0; 
+        const nombresEtapas = ["OCTAVOS DE FINAL", "CUARTOS DE FINAL", "SEMIFINAL", "GRAN FINAL"];
+        
+        let miEquipoVivo = true;
+        let puntajeUser = 0, puntajeBot = 0, rondaActual = 1;
+        let intervaloSimulacion;
+        let multiDificultad = 1.0; 
+        let premioActual = 10000;
+
+        // ==========================================
+        // 1. DRAFT Y CONFIG
+        // ==========================================
+        function cargarInventario() {
+            let guardado = localStorage.getItem("misCartasDC");
+            if (guardado) miInventario = JSON.parse(guardado);
+            else miInventario = todasLasCartas.sort(() => 0.5 - Math.random()).slice(0, 15);
+
+            const grid = document.getElementById("draft-grid");
+            grid.innerHTML = miInventario.sort((a,b) => b.pwr - a.pwr).map((j, i) => `
+                <div class="draft-card" id="draft-${i}" onclick="seleccionarJugador(${i})">
+                    <div class="d-year">${j.año}</div>
+                    <div class="d-rating">${j.pwr}</div>
+                    <img src="${j.f}" onerror="this.src='img/default.png'" class="d-pfp">
+                    <h4>${j.n}</h4>
+                    <span>${j.p}</span>
+                </div>
+            `).join('');
+        }
+
+        function seleccionarJugador(index) {
+            let card = document.getElementById(`draft-${index}`);
+            let jugador = miInventario.sort((a,b) => b.pwr - a.pwr)[index];
+
+            if (seleccionados.some(j => j.idUnico === jugador.idUnico)) {
+                seleccionados = seleccionados.filter(j => j.idUnico !== jugador.idUnico);
+                card.classList.remove("selected");
+            } else if (seleccionados.length < 4) {
+                seleccionados.push({ ...jugador, totalKills: 0, isCaptain: false });
+                card.classList.add("selected");
+            }
+
+            document.getElementById("draft-count").innerText = seleccionados.length;
+            if (seleccionados.length === 4) {
+                document.getElementById("tourney-config").classList.remove("hidden");
+                document.getElementById("captain-select").innerHTML = seleccionados.map(j => `<option value="${j.idUnico}">${j.n} (PWR: ${j.pwr})</option>`).join('');
+            } else {
+                document.getElementById("tourney-config").classList.add("hidden");
+            }
+        }
+
+        function setDificultad(nivel) {
+            document.querySelectorAll(".diff-btn").forEach(btn => btn.classList.remove("active"));
+            let desc = document.getElementById("diff-desc");
+            let headerPrize = document.getElementById("header-prize");
+
+            if(nivel === 'easy') { document.getElementById("btn-diff-easy").classList.add("active"); multiDificultad = 0.7; premioActual = 5000; desc.innerText = "Premio: 5,000 💰 | Bot: Nivel Bajo"; } 
+            else if (nivel === 'normal') { document.getElementById("btn-diff-normal").classList.add("active"); multiDificultad = 1.0; premioActual = 10000; desc.innerText = "Premio: 10,000 💰 | Bot: Nivel Base"; } 
+            else { document.getElementById("btn-diff-hard").classList.add("active"); multiDificultad = 1.35; premioActual = 25000; desc.innerText = "Premio: 25,000 💰 | Bot: Nivel Extremo"; }
+            headerPrize.innerText = `PREMIO MAYOR: ${premioActual} 💰`;
+        }
+
+        function iniciarTorneo() {
+            // Reproducir música al iniciar el torneo si no está sonando
+            if(!musicPlaying) toggleMusic();
+
+            let capId = document.getElementById("captain-select").value;
+            seleccionados.forEach(j => {
+                if(j.idUnico === capId) { j.isCaptain = true; j.pwr = Math.round(j.pwr * 1.2); }
+            });
+
+            let poolDisponible = todasLasCartas.filter(c => !seleccionados.some(s => s.idUnico === c.idUnico));
+            poolDisponible = poolDisponible.sort(() => 0.5 - Math.random());
+
+            let equiposIniciales = [];
+            equiposIniciales.push({ id: "USER", nombre: "MI ESCUADRA", jugadores: seleccionados, isUser: true });
+
+            for (let i = 0; i < 15; i++) {
+                let botPlayers = poolDisponible.splice(0, 4);
+                // Inicializar kills del bot
+                botPlayers.forEach(p => p.totalKills = 0);
+                equiposIniciales.push({ id: `BOT-${i}`, nombre: nombresBots[i], jugadores: botPlayers, isUser: false });
+            }
+
+            llavesTorneo.push(equiposIniciales);
+            document.getElementById("draft-phase").classList.add("hidden");
+            dibujarBracket();
+            document.getElementById("bracket-phase").classList.remove("hidden");
+        }
+
+        // ==========================================
+        // BRACKET, ARENA Y SIMULACIÓN
+        // ==========================================
+        function dibujarBracket() {
+            let equiposActuales = llavesTorneo[etapaIndex];
+            document.getElementById("bracket-stage-title").innerText = nombresEtapas[etapaIndex] || "CAMPEÓN";
+
+            for(let i=1; i<=3; i++) { document.getElementById(`b-col-left-${i}`).innerHTML = ""; document.getElementById(`b-col-right-${i}`).innerHTML = ""; }
+
+            let mitad = equiposActuales.length / 2;
+            let colNum = equiposActuales.length === 16 ? 1 : equiposActuales.length === 8 ? 2 : 3;
+
+            if (equiposActuales.length > 1) {
+                for (let i = 0; i < mitad; i++) document.getElementById(`b-col-left-${colNum}`).innerHTML += `<div class="match-box ${equiposActuales[i].isUser ? 'box-user' : ''}">${equiposActuales[i].nombre}</div>`;
+                for (let i = mitad; i < equiposActuales.length; i++) document.getElementById(`b-col-right-${colNum}`).innerHTML += `<div class="match-box ${equiposActuales[i].isUser ? 'box-user' : ''}">${equiposActuales[i].nombre}</div>`;
+            } else {
+                document.getElementById(`b-col-left-3`).innerHTML = `<div class="match-box box-winner">${equiposActuales[0].nombre} 👑</div>`;
+            }
+
+            if (miEquipoVivo && equiposActuales.length > 1) {
+                document.getElementById("btn-to-arena").classList.remove("hidden");
+                document.getElementById("btn-view-stats").classList.add("hidden");
+            } else {
+                document.getElementById("btn-to-arena").classList.add("hidden");
+                document.getElementById("btn-view-stats").classList.remove("hidden");
+            }
+        }
+
+        function entrarALaArena() {
+            document.getElementById("bracket-phase").classList.add("hidden");
+            document.getElementById("tournament-phase").classList.remove("hidden");
+
+            let equiposFase = llavesTorneo[etapaIndex];
+            let miIndex = equiposFase.findIndex(e => e.isUser);
+            let rivalIndex = miIndex % 2 === 0 ? miIndex + 1 : miIndex - 1;
+            
+            let miEquipo = equiposFase[miIndex];
+            let rival = equiposFase[rivalIndex];
+
+            puntajeUser = 0; puntajeBot = 0; rondaActual = 1;
+            document.getElementById("score-user").innerText = "0"; document.getElementById("score-bot").innerText = "0";
+            document.getElementById("stage-display").innerText = nombresEtapas[etapaIndex];
+            document.getElementById("arena-enemy-name").innerText = rival.nombre;
+            document.getElementById("log-list").innerHTML = "<li>Iniciando el enfrentamiento...</li>";
+            
+            document.getElementById("btn-play-auto").classList.remove("hidden");
+            document.getElementById("btn-next-stage").classList.add("hidden");
+            document.getElementById("btn-skip-to-end").classList.add("hidden");
+
+            renderizarEscuadra("my-squad", miEquipo.jugadores, "blue-card");
+            renderizarEscuadra("bot-squad", rival.jugadores, "red-card");
+        }
+
+        function renderizarEscuadra(containerId, equipo, colorClass) {
+            document.getElementById(containerId).innerHTML = equipo.map(j => `
+                <div class="mini-player-card ${colorClass} ${j.isCaptain ? 'card-capitan' : ''}">
+                    ${j.isCaptain ? '<div class="cap-badge">👑</div>' : ''}
+                    <div class="card-year-tag">${j.año}</div>
+                    <img src="${j.f}" onerror="this.src='img/default.png'" class="mini-pfp">
+                    <div class="mini-info">
+                        <span class="m-nick">${j.n}</span>
+                        <span class="m-pwr">PWR: ${j.pwr}</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function simularPartidoCompleto() {
+            document.getElementById("btn-play-auto").classList.add("hidden");
+            
+            intervaloSimulacion = setInterval(() => {
+                let equiposFase = llavesTorneo[etapaIndex];
+                let miIndex = equiposFase.findIndex(e => e.isUser);
+                let rivalIndex = miIndex % 2 === 0 ? miIndex + 1 : miIndex - 1;
+                
+                let miEquipo = equiposFase[miIndex].jugadores;
+                let rival = equiposFase[rivalIndex].jugadores;
+
+                let poderUser = miEquipo.reduce((a, b) => a + b.pwr, 0);
+                let poderBot = rival.reduce((a, b) => a + b.pwr, 0) * multiDificultad * (1 + (etapaIndex * 0.15));
+
+                let suerteUser = poderUser * (Math.random() * 0.5 + 0.8);
+                let suerteBot = poderBot * (Math.random() * 0.5 + 0.8);
+                let killsRound = Math.floor(Math.random() * 3) + 2; 
+
+                if (suerteUser > suerteBot) {
+                    puntajeUser++; document.getElementById("score-user").innerText = puntajeUser;
+                    let shooters = [];
+                    for(let i=0; i<killsRound; i++) {
+                        let j = miEquipo[Math.floor(Math.random() * 4)];
+                        j.totalKills++; shooters.push(j.n);
+                    }
+                    agregarLog(`<b>¡Ronda Tuya!</b> Kills: ${shooters.join(', ')}.`, "#00ffff");
+                } else {
+                    puntajeBot++; document.getElementById("score-bot").innerText = puntajeBot;
+                    let shooters = [];
+                    for(let i=0; i<killsRound; i++) {
+                        let j = rival[Math.floor(Math.random() * 4)];
+                        j.totalKills++; shooters.push(j.n);
+                    }
+                    agregarLog(`<b>¡Ronda Rival!</b> Kills: ${shooters.join(', ')}.`, "#ff003c");
+                }
+
+                document.getElementById("round-display").innerText = `RONDA ${rondaActual}`;
+                rondaActual++;
+
+                if (puntajeUser >= 7 || puntajeBot >= 7) {
+                    clearInterval(intervaloSimulacion);
+                    finalizarPartido(puntajeUser === 7);
+                }
+            }, 800);
+        }
+
+        function agregarLog(mensaje, color) {
+            const lista = document.getElementById("log-list");
+            const li = document.createElement("li");
+            li.innerHTML = `<span style="color:${color};">R${rondaActual-1}:</span> ${mensaje}`;
+            lista.prepend(li);
+        }
+
+        function finalizarPartido(gane) {
+            let titulo = document.getElementById("round-display");
+            if (gane) {
+                titulo.innerText = "¡AVANZAS DE FASE!";
+                titulo.style.color = "#00ff88";
+                simularRestoFase(true);
+                document.getElementById("btn-next-stage").classList.remove("hidden");
+            } else {
+                titulo.innerText = "¡ELIMINADO!";
+                titulo.style.color = "#ff003c";
+                miEquipoVivo = false;
+                simularRestoFase(false);
+                document.getElementById("btn-skip-to-end").classList.remove("hidden"); // Muestra botón para saltar al final
+            }
+        }
+
+        function simularRestoFase(userWon) {
+            let equiposActuales = llavesTorneo[etapaIndex];
+            let clasificados = [];
+
+            for (let i = 0; i < equiposActuales.length; i += 2) {
+                let eq1 = equiposActuales[i];
+                let eq2 = equiposActuales[i+1];
+
+                if (eq1.isUser || eq2.isUser) {
+                    clasificados.push(userWon ? (eq1.isUser ? eq1 : eq2) : (eq1.isUser ? eq2 : eq1));
+                } else {
+                    let pwr1 = eq1.jugadores.reduce((a,b)=>a+b.pwr,0);
+                    let pwr2 = eq2.jugadores.reduce((a,b)=>a+b.pwr,0);
+                    let ganador = (pwr1 * Math.random()) > (pwr2 * Math.random()) ? eq1 : eq2;
+                    for(let k=0; k<25; k++){ ganador.jugadores[Math.floor(Math.random()*4)].totalKills++; }
+                    clasificados.push(ganador);
+                }
+            }
+            llavesTorneo.push(clasificados);
+        }
+
+        function volverAlBracket() {
+            document.getElementById("tournament-phase").classList.add("hidden");
+            etapaIndex++;
+            dibujarBracket();
+            document.getElementById("bracket-phase").classList.remove("hidden");
+
+            // Si somos campeones, damos el premio
+            if (llavesTorneo[etapaIndex].length === 1 && miEquipoVivo) {
+                let monedas = localStorage.getItem("monedasDC") ? parseInt(localStorage.getItem("monedasDC")) : 5000;
+                localStorage.setItem("monedasDC", monedas + premioActual);
+            }
+        }
+
+        function simularRestoYMostrarFinal() {
+            // Si el user perdió, simulamos todas las fases restantes instantáneamente
+            while (etapaIndex < 3) {
+                etapaIndex++;
+                simularRestoFase(false);
+            }
+            mostrarEstadisticasFinales();
+        }
+
+        // ==========================================
+        // 4. PREMIACIÓN Y ESTADÍSTICAS
+        // ==========================================
+        function mostrarEstadisticasFinales() {
+            document.getElementById("bracket-phase").classList.add("hidden");
+            document.getElementById("tournament-phase").classList.add("hidden");
+            document.getElementById("global-stats-phase").classList.remove("hidden");
+
+            let todosLosJugadoresTorneo = [];
+            let killsPorEquipo = {};
+
+            // Recolectar a todos los jugadores y sumar kills por equipo
+            llavesTorneo[0].forEach(eq => {
+                killsPorEquipo[eq.nombre] = 0;
+                eq.jugadores.forEach(j => {
+                    todosLosJugadoresTorneo.push({ ...j, teamName: eq.nombre, isUser: eq.isUser });
+                    killsPorEquipo[eq.nombre] += j.totalKills;
+                });
+            });
+
+            // 1. CAMPEÓN
+            let equipoCampeon = llavesTorneo[llavesTorneo.length - 1][0];
+            document.getElementById("aw-champ-name").innerText = equipoCampeon.nombre;
+
+            // 2. MVP (Más Kills)
+            todosLosJugadoresTorneo.sort((a,b) => b.totalKills - a.totalKills);
+            let mvp = todosLosJugadoresTorneo[0];
+            document.getElementById("aw-mvp-img").src = mvp.f;
+            document.getElementById("aw-mvp-name").innerText = mvp.n;
+            document.getElementById("aw-mvp-kills").innerText = `${mvp.totalKills} KILLS TOTALES`;
+
+            // 3. MEJOR EQUIPO (Más Kills acumuladas)
+            let bestTeamName = "";
+            let maxKillsTeam = -1;
+            for(let team in killsPorEquipo) {
+                if(killsPorEquipo[team] > maxKillsTeam) {
+                    maxKillsTeam = killsPorEquipo[team];
+                    bestTeamName = team;
+                }
+            }
+            document.getElementById("aw-best-team-name").innerText = bestTeamName;
+            document.getElementById("aw-best-team-kills").innerText = `${maxKillsTeam} KILLS COLECTIVAS`;
+
+            // Llenar tabla general
+            const tbody = document.getElementById("global-mvp-tbody");
+            tbody.innerHTML = todosLosJugadoresTorneo.map((j, index) => {
+                if(j.totalKills === 0) return '';
+                let colorRow = j.isUser ? 'rgba(0, 255, 255, 0.1)' : 'rgba(255, 0, 60, 0.05)';
+                let corona = index === 0 ? '🥇 MVP' : (j.isCaptain ? '👑 CAP' : '');
+                return `
+                    <tr style="background: ${colorRow};">
+                        <td style="padding:10px; display:flex; align-items:center; gap:10px;">
+                            <img src="${j.f}" style="width:30px; height:30px; border-radius:50%; border:1px solid #555;">
+                            <b>${j.n}</b> <span style="font-size:10px; color:#aaa;">(${j.año})</span> <span style="color:gold;">${corona}</span>
+                        </td>
+                        <td style="padding:10px; color:#ccc; font-size:12px;">${j.teamName}</td>
+                        <td style="padding:10px; color:gold; font-weight:bold; font-size:16px;">${j.totalKills} ⚔️</td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        window.onload = cargarInventario;
+    </script>
+</body>
+</html>
