@@ -1,0 +1,281 @@
+/* =========================================
+   ESTILOS EXCLUSIVOS: RESULTADOS Y BROADCAST
+========================================= */
+@import url('https://fonts.googleapis.com/css2?family=Teko:wght@700&display=swap'); /* Fuente ultra pesada para números */
+
+.resultado-section {
+    padding: 20px 40px;
+    height: calc(100vh - 90px);
+    overflow-y: auto;
+    background: #f4f4f4; /* Fondo claro como en las transmisiones */
+    color: #111;
+}
+
+.resultado-section::-webkit-scrollbar { width: 8px; }
+.resultado-section::-webkit-scrollbar-thumb { background: #111; }
+
+.dark-header { background: #111 !important; }
+.mt-40 { margin-top: 40px; }
+
+/* TÍTULOS DE SECCIÓN ESTILO BROADCAST */
+.section-title-graphic {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.square-dec { width: 15px; height: 15px; background: #ff003c; }
+.section-title-graphic h2 { font-size: 32px; font-weight: 900; letter-spacing: -1px; text-transform: uppercase; color: #111; margin: 0; }
+.line-dec { flex-grow: 1; height: 4px; background: #e0e0e0; }
+
+/* =========================================
+   1. CLASIFICACIÓN DE SQUADS (Imagen 3)
+========================================= */
+.team-standings-container {
+    display: flex;
+    background: #fff;
+    border: 2px solid #ddd;
+    box-shadow: 10px 10px 0px rgba(0,0,0,0.05);
+    position: relative;
+}
+
+.ff-table {
+    width: 60%;
+    border-collapse: collapse;
+    background: #111;
+    color: #fff;
+    font-size: 14px;
+    font-weight: bold;
+    clip-path: polygon(0 0, 100% 0, 95% 100%, 0 100%);
+    padding-right: 50px;
+}
+
+.ff-table th { background: #fff; color: #111; padding: 10px 15px; text-align: center; border-bottom: 3px solid #ff003c; }
+.ff-table td { padding: 12px 15px; text-align: center; border-bottom: 1px solid #333; }
+
+.t-rank { font-family: 'Teko', sans-serif; font-size: 24px; color: #fff; }
+.t-name { display: flex; align-items: center; gap: 10px; text-align: left; }
+.t-logo { width: 30px; height: 30px; }
+.t-kills, .t-pts { font-family: 'Teko', sans-serif; font-size: 22px; }
+.t-pts { color: gold; }
+
+/* Hero a la derecha de la tabla */
+.team-standings-hero {
+    width: 40%;
+    position: relative;
+    overflow: hidden;
+    background: url('../img/red.png') center/cover no-repeat;
+}
+.team-standings-hero::before { content: ""; position: absolute; top:0; left:0; width:100%; height:100%; background: rgba(255,255,255,0.8); }
+.team-standings-hero img { position: absolute; bottom: 0; right: 20px; height: 120%; object-fit: contain; filter: drop-shadow(-10px 0 15px rgba(0,0,0,0.3)); z-index: 2;}
+.hero-name-tag { position: absolute; bottom: 10px; right: 10px; background: #000; color: #fff; font-weight: 900; padding: 5px 15px; font-size: 20px; z-index: 3; border-bottom: 3px solid #00ff88;}
+
+
+/* =========================================
+   2. LAYOUT DIVIDIDO (MVP Y TOTW)
+========================================= */
+.split-layout {
+    display: flex;
+    gap: 30px;
+    height: 400px;
+}
+
+/* MVP SHOWCASE (Imagen 4) */
+.mvp-showcase {
+    flex: 1;
+    background: #ff003c;
+    position: relative;
+    overflow: hidden;
+    color: #fff;
+    box-shadow: 10px 10px 0px rgba(0,0,0,0.1);
+}
+
+.mvp-bg-graphic {
+    position: absolute; top: 0; right: 0; width: 70%; height: 100%;
+    background: #fff;
+    clip-path: polygon(30% 0, 100% 0, 100% 100%, 0% 100%);
+}
+
+.mvp-header { position: absolute; top: 20px; left: 20px; z-index: 3; }
+.mvp-header .tag { background: #111; color: #fff; font-size: 12px; font-weight: bold; padding: 3px 10px; display: block; width: fit-content;}
+.mvp-header .title { font-family: 'Teko', sans-serif; font-size: 80px; line-height: 0.8; text-shadow: 5px 5px 0px rgba(0,0,0,0.2); }
+
+.mvp-player-img { position: absolute; bottom: 0; left: 20%; height: 90%; z-index: 2; filter: drop-shadow(10px 0 15px rgba(0,0,0,0.5)); }
+
+.mvp-stats-box { position: absolute; bottom: 80px; left: 20px; z-index: 3; display: flex; flex-direction: column; gap: 5px; }
+.m-stat { display: flex; align-items: center; background: #111; color: #fff; width: fit-content;}
+.m-label { font-size: 10px; padding: 5px 10px; transform: rotate(-90deg); margin-left: -15px;}
+.m-val { font-family: 'Teko', sans-serif; font-size: 40px; background: #fff; color: #111; padding: 0 15px; }
+
+.mvp-name-plate { position: absolute; bottom: 15px; right: 15px; z-index: 3; display: flex; align-items: center; background: #111; padding: 5px 15px; gap: 10px; border-bottom: 4px solid #00ff88; }
+.mvp-team-logo { width: 30px; height: 30px; }
+.m-name-info { font-weight: 900; font-size: 18px; }
+
+
+/* EQUIPO DE LA SEMANA (Imagen 2) */
+.totw-showcase {
+    flex: 1;
+    background: #111;
+    position: relative;
+    border: 5px solid #00ff88;
+    overflow: hidden;
+    color: #fff;
+}
+
+.totw-header { position: absolute; top: 20px; left: 20px; z-index: 3; }
+.totw-header h2 { font-family: 'Teko', sans-serif; font-size: 60px; line-height: 0.8; margin:0; }
+.totw-header h3 { font-size: 20px; letter-spacing: 2px; margin:0; }
+
+.totw-logo-bg { position: absolute; bottom: 20px; left: 20px; opacity: 0.2; width: 250px; z-index: 1; }
+.totw-logo-bg img { width: 100%; filter: grayscale(100%); }
+
+/* =========================================
+   CONTENEDOR DE JUGADORES (8 JUGADORES)
+========================================= */
+.totw-players { 
+    position: absolute; 
+    bottom: 0; 
+    right: -5%; /* Sangrado a la derecha para dar más espacio */
+    width: 75%; /* Lo hacemos más ancho para que quepan los 8 */
+    height: 100%; 
+    z-index: 2; 
+}
+
+.totw-players img { 
+    position: absolute; 
+    object-fit: contain; 
+    filter: drop-shadow(-5px 0 10px rgba(0,0,0,0.8)); 
+    transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Animación de rebote */
+    cursor: pointer;
+}
+
+/* Efecto al pasar el mouse: El jugador sale hacia adelante y brilla en rojo */
+.totw-players img:hover {
+    transform: scale(1.1) translateY(-10px);
+    filter: drop-shadow(0px 10px 20px rgba(255, 0, 60, 0.8));
+    z-index: 20 !important; /* Se pone por encima de todos */
+}
+
+/* =========================================
+   FILA TRASERA (Jugadores 1 al 4)
+   (Más pequeños y un poco oscuros para dar profundidad 3D)
+========================================= */
+.p1 { top: 5%; left: 0%; height: 50%; z-index: 1; filter: drop-shadow(-5px 0 10px rgba(0,0,0,0.8)) brightness(0.6); }
+.p2 { top: 10%; left: 22%; height: 50%; z-index: 2; filter: drop-shadow(-5px 0 10px rgba(0,0,0,0.8)) brightness(0.6); }
+.p3 { top: 5%; left: 45%; height: 50%; z-index: 1; filter: drop-shadow(-5px 0 10px rgba(0,0,0,0.8)) brightness(0.6); }
+.p4 { top: 10%; left: 68%; height: 50%; z-index: 2; filter: drop-shadow(-5px 0 10px rgba(0,0,0,0.8)) brightness(0.6); }
+
+/* =========================================
+   FILA FRONTAL (Jugadores 5 al 8)
+   (Más grandes, los protagonistas de la imagen)
+========================================= */
+.p5 { bottom: 0; left: -10%; height: 65%; z-index: 3; }
+.p6 { bottom: -5%; left: 15%; height: 75%; z-index: 5; } /* El del centro (Más grande) */
+.p7 { bottom: -2%; left: 42%; height: 70%; z-index: 4; } /* Sub-centro */
+.p8 { bottom: 0; left: 65%; height: 60%; z-index: 3; }
+
+/* Sombra inferior para fundir el corte de las imágenes con la tarjeta */
+.totw-showcase::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 35%;
+    background: linear-gradient(to top, rgba(17,17,17,1) 0%, rgba(17,17,17,0) 100%);
+    z-index: 8;
+    pointer-events: none; /* Deja que el mouse pase a las fotos */
+}
+
+.totw-footer { 
+    position: absolute; 
+    bottom: 15px; 
+    right: 15px; 
+    background: #fff; 
+    color: #111; 
+    font-weight: 900; 
+    padding: 5px 15px; 
+    z-index: 10; /* Z-index alto para que la sombra no lo tape */
+    font-size: 16px; 
+    border-right: 5px solid #ff003c; /* Borde rojo porque es el Red DC */
+}
+
+/* =========================================
+   3. TOP 10 ELIMINACIONES (Imagen 1)
+========================================= */
+.top-kills-container {
+    display: flex;
+    gap: 20px;
+    height: 450px;
+}
+
+.top1-card {
+    flex: 1;
+    background: #fff;
+    border: 2px solid #ddd;
+    position: relative;
+    display: flex;
+    justify-content: center;
+}
+.rank-badge { position: absolute; top: 10px; left: 10px; font-family: 'Teko', sans-serif; font-size: 60px; font-weight: bold; line-height: 1; z-index: 2;}
+.top1-img { height: 85%; object-fit: contain; align-self: flex-end; z-index: 1;}
+.top1-footer { position: absolute; bottom: 0; left: 0; width: 100%; background: #111; color: #fff; display: flex; flex-direction: column; z-index: 3; }
+.top1-name { padding: 10px; font-weight: 900; font-size: 20px; border-bottom: 1px solid #333; }
+.top1-score { display: flex; justify-content: space-between; align-items: center; }
+.top1-score .label { padding-left: 10px; font-size: 12px; letter-spacing: 2px; }
+.top1-score .val { font-family: 'Teko', sans-serif; font-size: 50px; background: #fff; color: #111; padding: 0 20px; }
+
+.top-list-container {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+}
+
+.list-header { display: flex; background: #111; color: #fff; padding: 10px; font-weight: bold; font-size: 12px; }
+.list-header div { flex: 1; text-align: center; }
+.list-header .h-player { flex: 2; text-align: left; }
+.list-header .h-hash { flex: 0.5; }
+
+.list-body { flex-grow: 1; overflow-y: auto; background: #111; padding: 5px; }
+.list-body::-webkit-scrollbar { width: 5px; }
+.list-body::-webkit-scrollbar-thumb { background: #fff; }
+
+.list-row { display: flex; align-items: center; background: #000; color: #fff; margin-bottom: 5px; padding: 8px 10px; font-weight: bold; border-left: 3px solid #ff003c; }
+.list-row div { flex: 1; text-align: center; }
+.list-row .r-player { flex: 2; text-align: left; text-transform: uppercase; }
+.list-row .r-hash { flex: 0.5; }
+.r-rank { font-family: 'Teko', sans-serif; font-size: 24px; flex: 0.5 !important;}
+.r-elims { font-family: 'Teko', sans-serif; font-size: 24px; background: #fff; color: #111; padding: 2px 0; }
+
+
+/* =========================================
+   4. ROLES DOMINANTES (Imagen 5)
+========================================= */
+.roles-grid {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 50px;
+}
+
+.role-card {
+    flex: 1;
+    background: #111;
+    border: 1px solid #333;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    border-bottom: 5px solid #ff003c;
+    overflow: hidden;
+}
+
+.r-badge { position: absolute; top: 10px; left: 50%; transform: translateX(-50%); color: #fff; font-size: 10px; font-weight: 900; padding: 2px 10px; border-radius: 2px; z-index: 3;}
+.r-img { height: 200px; width: 100%; object-fit: contain; object-position: bottom; background: #e0e0e0; z-index: 1;}
+
+.r-name-box { display: flex; align-items: center; gap: 10px; background: #000; color: #fff; padding: 10px; font-weight: 900; font-size: 14px; border-top: 2px solid #333; }
+.r-mini-logo { width: 20px; height: 20px; }
+
+.r-stats-table { width: 100%; border-collapse: collapse; background: #222; color: #aaa; font-size: 11px; font-weight: bold; }
+.r-stats-table td { border: 1px solid #444; padding: 5px 10px; }
+.r-stats-table .r-val { color: #fff; font-family: 'Teko', sans-serif; font-size: 22px; text-align: right; }

@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultados y Estadísticas | DC ESPORT</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/resultado.css">
+</head>
+<body>
+
+    <nav class="sidebar">
+        <div class="sidebar-header">
+            <img src="img/red.png" alt="Logo DC">
+            <span>DC ESPORT</span>
+        </div>
+        <ul class="nav-menu">
+            <li onclick="window.location.href='inicio.html'">🏠 INICIO</li>
+            <li onclick="window.location.href='area.html'">🏆 ÁREA COMPETITIVA</li>
+            <li onclick="window.location.href='top.html'">📈 TOP 5 MUNDIAL</li>
+            <li onclick="window.location.href='pack.html'">💎 ABRIR PACK</li>
+            <li onclick="window.location.href='ia.html'">🤖 IA PREDICCIÓN</li>
+            <li onclick="window.location.href='evolucion.html'">📊 EVOLUCIÓN</li>
+            <li onclick="window.location.href='tabla.html'">🌎 TABLA SUDAMÉRICA</li>
+            <li onclick="window.location.href='mercado.html'">💰 MERCADO</li>
+            <li onclick="window.location.href='oro.html'">👑 BALÓN DE ORO</li>
+            <li onclick="window.location.href='mes.html'">⭐ JUGADOR DEL MES</li>
+            <li onclick="window.location.href='carrera.html'">🏟 MODO CARRERA</li>
+            <li onclick="window.location.href='rooster.html'">👥 ROOSTERS</li>
+            <li onclick="window.location.href='versus.html'">⚔️ TORNEO 4V4</li>
+            <li onclick="window.location.href='sobre.html'">💎 ABRIR SOBRE</li>
+            <li class="active btn-especial">📊 RESULTADOS</li>
+        </ul>
+    </nav>
+
+    <main class="main-content light-mode-base">
+        <header class="top-bar dark-header">
+            <h2>📊 CENTRAL DE ESTADÍSTICAS AUTOMATIZADA</h2>
+            <div class="user-stats">
+                <span style="color:gold;">EWC QUALIFIER 2026</span>
+            </div>
+        </header>
+
+        <section class="resultado-section">
+            
+            <div class="section-title-graphic">
+                <div class="square-dec"></div>
+                <h2>CLASIFICACIÓN DE SQUADS</h2>
+                <div class="line-dec"></div>
+            </div>
+
+            <div class="team-standings-container">
+                <table class="ff-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th style="text-align:left;">EQUIPO</th>
+                            <th>PARTIDAS</th>
+                            <th>KILLS</th>
+                            <th title="Torneos | Scrims | Ascensos">🏆 T | S | A</th>
+                            <th>PTS TOTAL</th>
+                        </tr>
+                    </thead>
+                    <tbody id="team-table-body">
+                        </tbody>
+                </table>
+                <div class="team-standings-hero">
+                    <img id="standings-hero-img" src="img/default.png" alt="Hero">
+                    <div class="hero-name-tag" id="standings-hero-name">CARGANDO...</div>
+                </div>
+            </div>
+
+            <div class="split-layout mt-40">
+                
+                <div class="mvp-showcase" id="mvp-bg-color">
+                    <div class="mvp-bg-graphic"></div>
+                    <div class="mvp-header">
+                        <span class="tag">TOP GLOBAL</span>
+                        <span class="title">MVP</span>
+                    </div>
+                    <img id="mvp-img" src="img/default.png" class="mvp-player-img" alt="MVP">
+                    
+                    <div class="mvp-stats-box">
+                        <div class="m-stat">
+                            <span class="m-label">ELIM.</span>
+                            <span class="m-val" id="mvp-kills">0</span>
+                        </div>
+                        <div class="m-stat">
+                            <span class="m-label">ASIST.</span>
+                            <span class="m-val" id="mvp-asist">0</span>
+                        </div>
+                    </div>
+
+                    <div class="mvp-name-plate">
+                        <img src="img/red.png" class="mvp-team-logo" alt="Logo">
+                        <div class="m-name-info" id="mvp-name-plate-text">CARGANDO...</div>
+                    </div>
+                </div>
+
+                <div class="totw-showcase">
+                    <div class="totw-header">
+                        <h2>EQUIPO</h2>
+                        <h3>DE LA SEMANA</h3>
+                    </div>
+                    <div class="totw-logo-bg">
+                        <img src="img/red.png" alt="Logo">
+                    </div>
+                    <div class="totw-players" id="totw-players-container">
+                        </div>
+                    <div class="totw-footer" id="totw-team-name">
+                        <span class="flag">🌎</span> CARGANDO...
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="section-title-graphic mt-40">
+                <div class="square-dec"></div>
+                <h2><span style="background:#000; color:#fff; padding:2px 5px; margin-right:10px;">TOP 10</span> ELIMINACIONES</h2>
+                <div class="line-dec"></div>
+            </div>
+
+            <div class="top-kills-container">
+                <div class="top1-card">
+                    <div class="rank-badge">1°</div>
+                    <img id="top1-img" src="img/default.png" class="top1-img">
+                    <div class="top1-footer">
+                        <div class="top1-name" id="top1-name">CARGANDO...</div>
+                        <div class="top1-score">
+                            <span class="label">ELIMINACIONES</span>
+                            <span class="val" id="top1-kills">0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="top-list-container">
+                    <div class="list-header">
+                        <div class="h-hash">#</div>
+                        <div class="h-team">EQUIPO</div>
+                        <div class="h-player">JUGADOR</div>
+                        <div class="h-elims">ELIMS</div>
+                    </div>
+                    <div id="top-kills-list" class="list-body">
+                        </div>
+                </div>
+            </div>
+
+            <div class="section-title-graphic mt-40">
+                <div class="square-dec"></div>
+                <h2>ROSTERS DOMINANTES</h2>
+                <div class="line-dec"></div>
+            </div>
+
+            <div class="roles-grid" id="roles-container">
+                </div>
+
+        </section>
+    </main>
+
+    <script>
+        // ==========================================
+        // BASE DE DATOS MAESTRA - TODOS TUS ROSTERS
+        // ==========================================
+
+        const equiposData = [
+            { nombre: "RED DC", img: "img/red.png", p: 40, t_torneo: 5, t_scrim: 12, t_ascenso: 2, pts: 2150, color: "#ff003c" },
+            { nombre: "WHITE DC", img: "img/white.png", p: 40, t_torneo: 3, t_scrim: 15, t_ascenso: 1, pts: 1980, color: "#aaa" },
+            { nombre: "FEM DC", img: "img/fem.png", p: 40, t_torneo: 4, t_scrim: 10, t_ascenso: 1, pts: 1850, color: "#d580ff" },
+            { nombre: "BLACK DC", img: "img/black.png", p: 40, t_torneo: 1, t_scrim: 8, t_ascenso: 0, pts: 1420, color: "#444" }
+        ];
+
+        // AQUÍ ESTÁN TODOS TUS JUGADORES (Solo edita k: kills, a: asistencias, d: daño, mapas: partidas)
+        const jugadoresData = [
+            // ====== ROSTER RED DC ======
+            { n: "VIDAL", nick: "DC VIDAL", eq: "RED DC", p: "🇺🇾", f: "img/rvidal.png", rol: "SOPORTE", k: 0, a: 0, d: "0", mapas: 0 },
+            { n: "PATÓN", nick: "DC PATÓN", eq: "RED DC", p: "🇵🇪", f: "img/rcaleb.png", rol: "RUSHER", k: 9, a: 9, d: "0", mapas: 1 },  
+            { n: "DRAGO", nick: "DC DRAGO", eq: "RED DC", p: "🇵🇪", f: "img/rdrago.png", rol: "IGL", k: 0, a: 0, d: "0", mapas: 0 },
+            { n: "MAXXI", nick: "DC MAXXI", eq: "RED DC", p: "🇦🇷", f: "img/rmaxi.png", rol: "GRANADIER", k: 8, a: 7, d: "0", mapas: 1 },
+            { n: "SEBAS JE", nick: "DC SEBAS JE", eq: "RED DC", p: "🇵🇪", f: "img/rsebas.png", rol: "RUSHER", k: 8, a: 6, d: "0", mapas: 1 },
+            { n: "CARDAN", nick: "DC CARDAN", eq: "RED DC", p: "🇧🇴", f: "img/rcardan.png", rol: "RUSHER", k: 0, a: 0, d: "0", mapas: 0 },           
+            { n: "DAGXZK1NG", nick: "DC DAGXZK1NG", eq: "RED DC", p: "🇨🇱", f: "img/rdago.png", rol: "RUSHER", k: 22, a: 10, d: "0", mapas: 1 },           
+            { n: "WALYY", nick: "DC WALYY", eq: "RED DC", p: "🇵🇪", f: "img/rwaly.png", rol: "RUSHER", k: 0, a: 0, d: "0", mapas: 0 },
+
+            // ====== ROSTER WHITE DC ======
+            { n: "MAIK", nick: "DC MAIK", eq: "WHITE DC", p: "🇵🇪", f: "img/rmaik.png", rol: "SOPORTE", k: 0, a: 0, d: "0", mapas: 0 },
+            { n: "AGUS", nick: "DC AGUS", eq: "WHITE DC", p: "🇦🇷", f: "img/ragus.png", rol: "RUSHER", k: 0, a: 0, d: "0", mapas: 0 },
+            { n: "ZHENZEUS", nick: "DC ZHENZEUS", eq: "WHITE DC", p: "🇧🇴", f: "img/rzeus.png", rol: "IGL", k: 0, a: 0, d: "0", mapas: 0 },
+            { n: "JONY", nick: "DC JONY", eq: "WHITE DC", p: "🇦🇷", f: "img/rjony.png", rol: "RUSHER", k: 0, a: 0, d: "0", mapas: 0 },
+            { n: "REVEN", nick: "DC REVEN", eq: "WHITE DC", p: "🇦🇷", f: "img/rreven.png", rol: "GRANADIER", k: 0, a: 0, d: "0", mapas: 0 },
+            { n: "FEDEX", nick: "DC FEDEX", eq: "WHITE DC", p: "🇦🇷", f: "img/rfede.png", rol: "GRANADIER", k: 0, a: 0, d: "0", mapas: 0 },
+            { n: "ELAR", nick: "DC ELAR", eq: "WHITE DC", p: "🇵🇪", f: "img/relar.png", rol: "RUSHER", k: 24, a: 12, d: "0", mapas: 2 },
+            { n: "MINI", nick: "DC MINI", eq: "WHITE DC", p: "🇦🇷", f: "img/rmini.png", rol: "SOPORTE", k: 0, a: 0, d: "0", mapas: 0 },
+
+            // ====== ROSTER BLACK DC ======
+            { n: "RUIZZ", nick: "DC RUIZZ", eq: "BLACK DC", p: "🇦🇷", f: "img/rruiz.png", rol: "IGL", k: 0, a: 0, d: "0", mapas: 0 },
+            { n: "MAURI", nick: "DC MAURI", eq: "BLACK DC", p: "🇦🇷", f: "img/rmauri.png", rol: "RUSHER", k: 0, a: 0, d: "0", mapas: 0 },
+            { n: "PABL9", nick: "DC PABL9", eq: "BLACK DC", p: "🇦🇷", f: "img/rpablo.png", rol: "SOPORTE", k: 0, a: 0, d: "0", mapas: 0 },
+            { n: "MIRKO", nick: "DC MIRKO", eq: "BLACK DC", p: "🇦🇷", f: "img/rmirko.png", rol: "RUSHER", k: 0, a: 0, d: "0", mapas: 0 },
+            // Espacios vacíos del Black DC (TBD)
+            { n: "RESERVA 1", nick: "DC TBD", eq: "BLACK DC", p: "🏳️", f: "img/default.png", rol: "RUSHER", k: 0, a: 0, d: "0", mapas: 0 },
+            { n: "RESERVA 2", nick: "DC TBD", eq: "BLACK DC", p: "🏳️", f: "img/default.png", rol: "GRANADIER", k: 0, a: 0, d: "0", mapas: 0 },
+            { n: "RESERVA 3", nick: "DC TBD", eq: "BLACK DC", p: "🏳️", f: "img/default.png", rol: "RUSHER", k: 0, a: 0, d: "0", mapas: 0 },
+            { n: "RESERVA 4", nick: "DC TBD", eq: "BLACK DC", p: "🏳️", f: "img/default.png", rol: "GRANADIER", k: 0, a: 0, d: "0", mapas: 0 },
+
+            // ====== ROSTER FEM DC ======
+            { n: "LINDA", nick: "DC LINDA", eq: "FEM DC", p: "🇨🇱", f: "img/rlinda.png", rol: "SOPORTE", k: 0, a: 0, d: "0", mapas: 0 },
+            { n: "POCHI", nick: "DC POCHI", eq: "FEM DC", p: "🇦🇷", f: "img/rpochi.png", rol: "IGL", k: 0, a: 0, d: "0", mapas: 0 },
+            { n: "DANNA", nick: "DC DANNA", eq: "FEM DC", p: "🇨🇱", f: "img/rdana.png", rol: "RUSHER", k: 0, a: 0, d: "0", mapas: 0 },
+            { n: "IZZA", nick: "DC IZZA", eq: "FEM DC", p: "🇨🇱", f: "img/rizza.png", rol: "SOPORTE", k: 0, a: 0, d: "0", mapas: 0 },
+            { n: "VEXI", nick: "DC VEXI", eq: "FEM DC", p: "🇧🇴", f: "img/rnati.png", rol: "RUSHER", k: 0, a: 0, d: "0", mapas: 0 },
+            { n: "VICTXRIA", nick: "DC VICTXRIA", eq: "FEM DC", p: "🇻🇪", f: "img/rvictoria.png", rol: "RUSHER", k: 0, a: 0, d: "0", mapas: 0 },
+            { n: "TATI", nick: "DC TATI", eq: "FEM DC", p: "🇵🇾", f: "img/rtati.png", rol: "RUSHER", k: 0, a: 0, d: "0", mapas: 0 },
+            { n: "SAYU", nick: "DC SAYU", eq: "FEM DC", p: "🇵🇪", f: "img/rsayu.png", rol: "RUSHER", k: 0, a: 0, d: "0", mapas: 0 },
+            { n: "MAY", nick: "DC MAY", eq: "FEM DC", p: "🇦🇷", f: "img/rmay.png", rol: "RUSHER", k: 0, a: 0, d: "0", mapas: 0 },
+            { n: "MAI", nick: "DC MAI", eq: "FEM DC", p: "🇦🇷", f: "img/rmai.png", rol: "RUSHER", k: 0, a: 0, d: "0", mapas: 0 }
+        ];
+
+        // ==========================================
+        // MOTOR DE AUTOMATIZACIÓN DE GRÁFICOS
+        // ==========================================
+        function procesarDatos() {
+            // 1. Calcular Kills Totales por Equipo y Ordenar
+            equiposData.forEach(eq => {
+                eq.k = jugadoresData.filter(j => j.eq === eq.nombre).reduce((sum, j) => sum + j.k, 0);
+            });
+            equiposData.sort((a, b) => b.pts - a.pts); 
+
+            // Rellenar Tabla Equipos
+            const tBody = document.getElementById("team-table-body");
+            tBody.innerHTML = equiposData.map((eq, i) => `
+                <tr>
+                    <td class="t-rank">${i+1}</td>
+                    <td class="t-name">
+                        <img src="${eq.img}" class="t-logo">
+                        <span style="color:${eq.color}; font-weight:900;">${eq.nombre}</span>
+                    </td>
+                    <td>${eq.p}</td>
+                    <td class="t-kills">${eq.k}</td>
+                    <td class="t-trophies"><b style="color:gold;">${eq.t_torneo}</b> | <b>${eq.t_scrim}</b> | <b style="color:#00ff88;">${eq.t_ascenso}</b></td>
+                    <td class="t-pts">${eq.pts}</td>
+                </tr>
+            `).join('');
+
+            // Poner al Capitán del Equipo #1 en el póster de la tabla
+            let mejorEquipo = equiposData[0];
+            let capitanMejorEquipo = jugadoresData.find(j => j.eq === mejorEquipo.nombre && j.rol === "IGL") || jugadoresData.find(j => j.eq === mejorEquipo.nombre);
+            document.getElementById("standings-hero-img").src = capitanMejorEquipo.f;
+            document.getElementById("standings-hero-name").innerHTML = `<span class="flag">${capitanMejorEquipo.p}</span> ${capitanMejorEquipo.nick}`;
+
+            // 2. ORDENAR TOP JUGADORES (Por Kills para MVP y Top 10)
+            let topJugadores = [...jugadoresData].filter(j => j.k > 0).sort((a, b) => b.k - a.k);
+            let mvp = topJugadores[0]; 
+
+            // MVP Showcase
+            document.getElementById("mvp-img").src = mvp.f;
+            document.getElementById("mvp-kills").innerText = mvp.k;
+            document.getElementById("mvp-asist").innerText = mvp.a;
+            document.getElementById("mvp-name-plate-text").innerHTML = `<span class="flag">${mvp.p}</span> ${mvp.nick}`;
+            let mvpColor = equiposData.find(e => e.nombre === mvp.eq)?.color || "#ff003c";
+            document.getElementById("mvp-bg-color").style.backgroundColor = mvpColor;
+
+            // TOP 1 (Tarjeta Grande)
+            document.getElementById("top1-img").src = mvp.f;
+            document.getElementById("top1-name").innerHTML = `<span class="flag">${mvp.p}</span> ${mvp.nick}`;
+            document.getElementById("top1-kills").innerText = mvp.k;
+
+            // TOP 2 al 10 (Lista)
+            const listBody = document.getElementById("top-kills-list");
+            listBody.innerHTML = topJugadores.slice(1, 10).map((j, i) => `
+                <div class="list-row">
+                    <div class="r-rank">${i+2}</div>
+                    <div class="r-team">${j.eq}</div>
+                    <div class="r-player"><span class="flag">${j.p}</span> ${j.n}</div>
+                    <div class="r-elims">${j.k}</div>
+                </div>
+            `).join('');
+
+            // 3. EQUIPO DE LA SEMANA (Los 8 mejores del Equipo #1)
+            let jugadoresMejorEquipo = jugadoresData.filter(j => j.eq === mejorEquipo.nombre).sort((a,b) => b.k - a.k).slice(0, 8);
+            const totwContainer = document.getElementById("totw-players-container");
+            totwContainer.innerHTML = jugadoresMejorEquipo.map((j, i) => `
+                <img src="${j.f}" onerror="this.src='img/default.png'" class="p${i+1}" title="${j.nick} (${j.k} Kills)">
+            `).join('');
+            document.getElementById("totw-team-name").innerHTML = `<span class="flag">🌎</span> ROSTER ${mejorEquipo.nombre}`;
+
+            // 4. ROSTERS DOMINANTES POR ROL
+            const rolesBuscados = ["RUSHER", "SOPORTE", "IGL", "GRANADIER"];
+            let dominantesHTML = "";
+
+            rolesBuscados.forEach(rolBuscado => {
+                let mejorDelRol = [...jugadoresData].filter(j => j.rol === rolBuscado).sort((a,b) => b.k - a.k)[0];
+                if(mejorDelRol) {
+                    let colorEq = equiposData.find(e => e.nombre === mejorDelRol.eq)?.color || "#ff003c";
+                    dominantesHTML += `
+                        <div class="role-card" style="border-bottom: 5px solid ${colorEq};">
+                            <div class="r-badge" style="background:${colorEq};">${mejorDelRol.rol}</div>
+                            <img src="${mejorDelRol.f}" onerror="this.src='img/default.png'" class="r-img">
+                            <div class="r-name-box">
+                                <img src="img/red.png" class="r-mini-logo">
+                                <span>${mejorDelRol.n}</span>
+                            </div>
+                            <table class="r-stats-table">
+                                <tr><td>ELIMS</td><td class="r-val" style="color:#fff;">${mejorDelRol.k}</td></tr>
+                                <tr><td>ASIST.</td><td class="r-val">${mejorDelRol.a}</td></tr>
+                                <tr><td>DAÑO</td><td class="r-val">${mejorDelRol.d}</td></tr>
+                            </table>
+                        </div>
+                    `;
+                }
+            });
+
+            // Agregamos al MVP Absoluto al final
+            dominantesHTML += `
+                <div class="role-card" style="border-bottom: 5px solid ${mvpColor}; transform: scale(1.05); box-shadow: 0 0 20px ${mvpColor};">
+                    <div class="r-badge" style="background:${mvpColor};">MVP GLOBAL</div>
+                    <img src="${mvp.f}" onerror="this.src='img/default.png'" class="r-img">
+                    <div class="r-name-box">
+                        <img src="img/red.png" class="r-mini-logo">
+                        <span>${mvp.n}</span>
+                    </div>
+                    <table class="r-stats-table">
+                        <tr><td>ELIMS</td><td class="r-val" style="color:gold;">${mvp.k}</td></tr>
+                        <tr><td>ASIST.</td><td class="r-val">${mvp.a}</td></tr>
+                        <tr><td>DAÑO</td><td class="r-val">${mvp.d}</td></tr>
+                    </table>
+                </div>
+            `;
+
+            document.getElementById("roles-container").innerHTML = dominantesHTML;
+        }
+
+        window.onload = procesarDatos;
+    </script>
+</body>
+</html>

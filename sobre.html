@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abrir Sobre | DC ESPORT</title>
+    <!-- Usamos Montserrat y Teko para dar ese look agresivo de eSports -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,800;0,900;1,900&family=Teko:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/sobre.css">
+</head>
+<body>
+
+    <nav class="sidebar">
+        <div class="sidebar-header">
+            <img src="img/red.png" alt="Logo DC">
+            <span>DC ESPORT</span>
+        </div>
+        <ul class="nav-menu">
+            <li onclick="window.location.href='inicio.html'">🏠 INICIO</li>
+            <li onclick="window.location.href='area.html'">🏆 ÁREA COMPETITIVA</li>
+            <li onclick="window.location.href='top.html'">📈 TOP 5 MUNDIAL</li>
+            <li class="active btn-especial">💎 ABRIR SOBRE</li>
+            <li onclick="window.location.href='ia.html'">🤖 IA PREDICCIÓN</li>
+            <li onclick="window.location.href='evolucion.html'">📊 EVOLUCIÓN</li>
+            <li onclick="window.location.href='tabla.html'">🌎 TABLA SUDAMÉRICA</li>
+            <li onclick="window.location.href='mercado.html'">💰 MERCADO</li>
+            <li onclick="window.location.href='balon.html'">👑 BALÓN DE ORO</li>
+            <li onclick="window.location.href='mes.html'">⭐ JUGADOR DEL MES</li>
+            <li onclick="window.location.href='carrera.html'">🏟 MODO CARRERA</li>
+            <li onclick="window.location.href='rooster.html'">👥 ROOSTERS</li>
+            <li onclick="window.location.href='versus.html'">⚔️ TORNEO 4V4</li>
+            <li onclick="window.location.href='resultado.html'">📊 RESULTADOS</li>
+        </ul>
+    </nav>
+
+    <main class="main-content light-mode-base">
+        <header class="top-bar dark-header">
+            <h2>💎 TIENDA DE SOBRES OFICIALES</h2>
+            <div class="user-stats">
+                <span style="color:gold;">PRESUPUESTO: <b id="saldo-monedas">5000</b> 💰</span>
+            </div>
+        </header>
+
+        <section class="sobre-section">
+            
+            <!-- CONTENEDOR DEL SOBRE (ANTES DE ABRIR) -->
+            <div id="pack-container" class="pack-container">
+                <div class="pack-item" onclick="abrirSobre()">
+                    <div class="pack-foil"></div>
+                    <img src="img/red.png" class="pack-logo" alt="DC Logo">
+                    <h2>EWC 2026</h2>
+                    <p>SOBRE DE ESTAMPAS</p>
+                    <span class="pack-price">1000 💰</span>
+                </div>
+                <h3 class="pack-instruction">HAZ CLIC EN EL SOBRE PARA ABRIR</h3>
+            </div>
+
+            <!-- CONTENEDOR DE RESULTADOS (DESPUÉS DE ABRIR) -->
+            <div id="result-container" class="result-container hidden">
+                
+                <!-- HEADER ESTILO LATAM -->
+                <div class="result-header-banner">
+                    <div class="color-bars">
+                        <div style="background:#ff003c;"></div>
+                        <div style="background:#00ffff;"></div>
+                        <div style="background:gold;"></div>
+                        <div style="background:#d580ff;"></div>
+                    </div>
+                    <div class="banner-text">
+                        <span>ABRES UN SOBRE DE ESTAMPAS Y TE SALEN ESTOS</span>
+                        <h1>JUGADORES</h1>
+                    </div>
+                    <div class="banner-barcode">
+                        <div class="qr-code"></div>
+                        <div class="barcode-lines"></div>
+                        <span class="coords">24.7136° N, 46.6753° E</span>
+                    </div>
+                </div>
+
+                <!-- ZONA DE CARTAS -->
+                <div id="cards-arena" class="cards-arena">
+                    <!-- Las cartas se inyectan aquí con JS -->
+                </div>
+
+                <div class="action-buttons">
+                    <button class="btn-battle" onclick="guardarYVolver()">GUARDAR EN INVENTARIO 📥</button>
+                    <button class="btn-battle btn-gold" onclick="location.reload()">ABRIR OTRO SOBRE 💎</button>
+                </div>
+            </div>
+
+        </section>
+    </main>
+
+    <script>
+        // BASE DE DATOS DE JUGADORES
+        const jugadoresData = [
+            { n: "VIDAL", nick: "DC VIDAL", eq: "RED DC", p: "🇺🇾", f: "img/rvidal.png", rol: "SOPORTE", k: 0, a: 0, d: "0", mapas: 0 },
+            { n: "PATÓN", nick: "DC PATÓN", eq: "RED DC", p: "🇵🇪", f: "img/rcaleb.png", rol: "RUSHER", k: 9, a: 9, d: "0", mapas: 1 },  
+            { n: "DRAGO", nick: "DC DRAGO", eq: "RED DC", p: "🇵🇪", f: "img/rdrago.png", rol: "IGL", k: 0, a: 0, d: "0", mapas: 0 },
+            { n: "MAXXI", nick: "DC MAXXI", eq: "RED DC", p: "🇦🇷", f: "img/rmaxi.png", rol: "GRANADIER", k: 8, a: 7, d: "0", mapas: 1 },
+            { n: "SEBAS JE", nick: "DC SEBAS JE", eq: "RED DC", p: "🇵🇪", f: "img/rsebas.png", rol: "RUSHER", k: 8, a: 6, d: "0", mapas: 1 },
+            { n: "CARDAN", nick: "DC CARDAN", eq: "RED DC", p: "🇧🇴", f: "img/rcardan.png", rol: "RUSHER", k: 0, a: 0, d: "0", mapas: 0 },           
+            { n: "DAGXZK1NG", nick: "DC DAGXZK1NG", eq: "RED DC", p: "🇨🇱", f: "img/rdago.png", rol: "RUSHER", k: 22, a: 10, d: "0", mapas: 1 },           
+            { n: "WALYY", nick: "DC WALYY", eq: "RED DC", p: "🇵🇪", f: "img/rwaly.png", rol: "RUSHER", k: 0, a: 0, d: "0", mapas: 0 },
+
+            // ====== ROSTER WHITE DC ======
+            { n: "MAIK", nick: "DC MAIK", eq: "WHITE DC", p: "🇵🇪", f: "img/rmaik.png", rol: "SOPORTE", k: 0, a: 0, d: "0", mapas: 0 },
+            { n: "AGUS", nick: "DC AGUS", eq: "WHITE DC", p: "🇦🇷", f: "img/ragus.png", rol: "RUSHER", k: 0, a: 0, d: "0", mapas: 0 },
+            { n: "ZHENZEUS", nick: "DC ZHENZEUS", eq: "WHITE DC", p: "🇧🇴", f: "img/rzeus.png", rol: "IGL", k: 0, a: 0, d: "0", mapas: 0 },
+            { n: "JONY", nick: "DC JONY", eq: "WHITE DC", p: "🇦🇷", f: "img/rjony.png", rol: "RUSHER", k: 0, a: 0, d: "0", mapas: 0 },
+            { n: "REVEN", nick: "DC REVEN", eq: "WHITE DC", p: "🇦🇷", f: "img/rreven.png", rol: "GRANADIER", k: 0, a: 0, d: "0", mapas: 0 },
+            { n: "FEDEX", nick: "DC FEDEX", eq: "WHITE DC", p: "🇦🇷", f: "img/rfede.png", rol: "GRANADIER", k: 0, a: 0, d: "0", mapas: 0 },
+            { n: "ELAR", nick: "DC ELAR", eq: "WHITE DC", p: "🇵🇪", f: "img/relar.png", rol: "RUSHER", k: 24, a: 12, d: "0", mapas: 2 },
+            { n: "MINI", nick: "DC MINI", eq: "WHITE DC", p: "🇦🇷", f: "img/rmini.png", rol: "SOPORTE", k: 0, a: 0, d: "0", mapas: 0 },
+
+            // ====== ROSTER BLACK DC ======
+            { n: "RUIZZ", nick: "DC RUIZZ", eq: "BLACK DC", p: "🇦🇷", f: "img/rruiz.png", rol: "IGL", k: 0, a: 0, d: "0", mapas: 0 },
+            { n: "MAURI", nick: "DC MAURI", eq: "BLACK DC", p: "🇦🇷", f: "img/rmauri.png", rol: "RUSHER", k: 0, a: 0, d: "0", mapas: 0 },
+            { n: "PABL9", nick: "DC PABL9", eq: "BLACK DC", p: "🇦🇷", f: "img/rpablo.png", rol: "SOPORTE", k: 0, a: 0, d: "0", mapas: 0 },
+            { n: "MIRKO", nick: "DC MIRKO", eq: "BLACK DC", p: "🇦🇷", f: "img/rmirko.png", rol: "RUSHER", k: 0, a: 0, d: "0", mapas: 0 },
+            // Espacios vacíos del Black DC (TBD)
+            { n: "RESERVA 1", nick: "DC TBD", eq: "BLACK DC", p: "🏳️", f: "img/default.png", rol: "RUSHER", k: 0, a: 0, d: "0", mapas: 0 },
+            { n: "RESERVA 2", nick: "DC TBD", eq: "BLACK DC", p: "🏳️", f: "img/default.png", rol: "GRANADIER", k: 0, a: 0, d: "0", mapas: 0 },
+            { n: "RESERVA 3", nick: "DC TBD", eq: "BLACK DC", p: "🏳️", f: "img/default.png", rol: "RUSHER", k: 0, a: 0, d: "0", mapas: 0 },
+            { n: "RESERVA 4", nick: "DC TBD", eq: "BLACK DC", p: "🏳️", f: "img/default.png", rol: "GRANADIER", k: 0, a: 0, d: "0", mapas: 0 },
+
+            // ====== ROSTER FEM DC ======
+            { n: "LINDA", nick: "DC LINDA", eq: "FEM DC", p: "🇨🇱", f: "img/rlinda.png", rol: "SOPORTE", k: 0, a: 0, d: "0", mapas: 0 },
+            { n: "POCHI", nick: "DC POCHI", eq: "FEM DC", p: "🇦🇷", f: "img/rpochi.png", rol: "IGL", k: 0, a: 0, d: "0", mapas: 0 },
+            { n: "DANNA", nick: "DC DANNA", eq: "FEM DC", p: "🇨🇱", f: "img/rdana.png", rol: "RUSHER", k: 0, a: 0, d: "0", mapas: 0 },
+            { n: "IZZA", nick: "DC IZZA", eq: "FEM DC", p: "🇨🇱", f: "img/rizza.png", rol: "SOPORTE", k: 0, a: 0, d: "0", mapas: 0 },
+            { n: "VEXI", nick: "DC VEXI", eq: "FEM DC", p: "🇧🇴", f: "img/rnati.png", rol: "RUSHER", k: 0, a: 0, d: "0", mapas: 0 },
+            { n: "VICTXRIA", nick: "DC VICTXRIA", eq: "FEM DC", p: "🇻🇪", f: "img/rvictoria.png", rol: "RUSHER", k: 0, a: 0, d: "0", mapas: 0 },
+            { n: "TATI", nick: "DC TATI", eq: "FEM DC", p: "🇵🇾", f: "img/rtati.png", rol: "RUSHER", k: 0, a: 0, d: "0", mapas: 0 },
+            { n: "SAYU", nick: "DC SAYU", eq: "FEM DC", p: "🇵🇪", f: "img/rsayu.png", rol: "RUSHER", k: 0, a: 0, d: "0", mapas: 0 },
+            { n: "MAY", nick: "DC MAY", eq: "FEM DC", p: "🇦🇷", f: "img/rmay.png", rol: "RUSHER", k: 0, a: 0, d: "0", mapas: 0 },
+            { n: "MAI", nick: "DC MAI", eq: "FEM DC", p: "🇦🇷", f: "img/rmai.png", rol: "RUSHER", k: 0, a: 0, d: "0", mapas: 0 }
+        ];
+
+        let cartasObtenidas = [];
+
+        function abrirSobre() {
+            let saldo = localStorage.getItem("monedasDC") ? parseInt(localStorage.getItem("monedasDC")) : 5000;
+            if (saldo < 1000) {
+                alert("No tienes suficientes monedas (Cuesta 1000 💰). Juega torneos para ganar más.");
+                return;
+            }
+
+            // Descontar monedas
+            saldo -= 1000;
+            localStorage.setItem("monedasDC", saldo);
+            document.getElementById("saldo-monedas").innerText = saldo;
+
+            // Animación del Sobre
+            const pack = document.querySelector(".pack-item");
+            pack.classList.add("shaking");
+
+            setTimeout(() => {
+                // Flash blanco y revelar
+                document.getElementById("pack-container").style.display = "none";
+                document.getElementById("result-container").classList.remove("hidden");
+                
+                generarCartas();
+            }, 1500);
+        }
+
+        function generarCartas() {
+            // Seleccionar 5 jugadores aleatorios
+            let pool = [...jugadoresData].sort(() => 0.5 - Math.random());
+            cartasObtenidas = pool.slice(0, 5);
+
+            const arena = document.getElementById("cards-arena");
+            arena.innerHTML = "";
+
+            cartasObtenidas.forEach((j, i) => {
+                // Rotación aleatoria entre -10deg y +10deg
+                let rotation = (Math.random() * 20) - 10;
+                let delay = i * 0.2; // Efecto escalonado
+
+                let cardHTML = `
+                    <div class="estampa-card" style="animation-delay: ${delay}s; --rot: ${rotation}deg;">
+                        <div class="st-inner">
+                            
+                            <!-- FONDO DIAGONAL COLOR -->
+                            <div class="st-bg-color" style="background: ${j.color};"></div>
+                            
+                            <!-- LATAM 2026 TAG -->
+                            <div class="st-year-tag">
+                                <span class="latam-text">LATAM <span class="flag">${j.p}</span></span>
+                                <span class="year-num">20<br>26</span>
+                            </div>
+
+                            <!-- FREE FIRE LOGO TEXT -->
+                            <div class="st-ff-logo">FREE FIRE</div>
+
+                            <!-- FOTO JUGADOR -->
+                            <img src="${j.f}" onerror="this.src='img/default.png'" class="st-player-img">
+
+                            <!-- INFO ABAJO -->
+                            <div class="st-bottom-info">
+                                <div class="st-name-plate">
+                                    <div class="name-text" style="border-bottom: 4px solid ${j.color};">${j.nick}</div>
+                                </div>
+                                <div class="st-role-team">
+                                    <span class="st-role">🛡️ ${j.rol}</span>
+                                    <span class="st-team">${j.eq} <img src="img/red.png"></span>
+                                </div>
+                                <div class="st-barcode-area">
+                                    <div class="st-qr"></div>
+                                    <span class="st-coords">24.7136° N, 46.6753° E</span>
+                                    <div class="st-bars"></div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                `;
+                arena.innerHTML += cardHTML;
+            });
+        }
+
+        function guardarYVolver() {
+            // Obtener inventario actual
+            let guardado = localStorage.getItem("misCartasDC");
+            let inventario = guardado ? JSON.parse(guardado) : [];
+            
+            // Añadir las nuevas cartas (simulamos un ID único para no sobreescribir)
+            cartasObtenidas.forEach(c => {
+                inventario.push({ ...c, año: 2026, pwr: Math.floor(Math.random() * 20) + 70, idUnico: `${c.n}-${Date.now()}-${Math.random()}` });
+            });
+
+            localStorage.setItem("misCartasDC", JSON.stringify(inventario));
+            alert("¡Cartas guardadas en tu inventario exitosamente!");
+            window.location.href = "versus.html"; // Lo mandamos al torneo para que arme su equipo
+        }
+
+        // Cargar saldo inicial
+        window.onload = () => {
+            let saldo = localStorage.getItem("monedasDC") ? parseInt(localStorage.getItem("monedasDC")) : 5000;
+            document.getElementById("saldo-monedas").innerText = saldo;
+        };
+    </script>
+</body>
+</html>
