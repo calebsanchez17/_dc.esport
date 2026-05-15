@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administración | DC ESPORT</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+
+    <nav class="sidebar">
+        <div class="sidebar-header">
+            <img src="img/red.png" alt="Logo DC">
+            <span>DC ESPORT</span>
+        </div>
+        <ul class="nav-menu">
+            <li class="active btn-especial">👁️ BASE DE DATOS</li>
+            <li onclick="window.location.href='index.html'">🚪 SALIR DEL MODO ADMIN</li>
+        </ul>
+    </nav>
+
+    <main class="main-content">
+        <header class="top-bar dark-header">
+            <h2>👁️ PANEL DE CONTROL MODO DIOS</h2>
+            <div class="user-stats">
+                <span style="color:#ff003c;">👑 ADMINISTRADOR: Caleb Sanchez</span>
+            </div>
+        </header>
+
+        <section class="admin-section">
+            
+            <div class="admin-intro">
+                <h1>GESTIÓN DE USUARIOS Y ECONOMÍA</h1>
+                <p>Monitorea registros e inyecta monedas directamente a las cuentas de los jugadores.</p>
+            </div>
+
+            <div class="table-container">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>NICKNAME</th>
+                            <th>CORREO</th>
+                            <th>CONTRASEÑA</th>
+                            <th>ÚLTIMO ACCESO</th>
+                            <th>SALDO ACTUAL</th>
+                            <th>GESTIÓN DE MONEDAS</th>
+                        </tr>
+                    </thead>
+                    <tbody id="usuarios-tbody">
+                        </tbody>
+                </table>
+            </div>
+
+        </section>
+    </main>
+
+    <script>
+        function cargarUsuarios() {
+            let db = JSON.parse(localStorage.getItem("db_usuariosDC")) || [];
+            const tbody = document.getElementById("usuarios-tbody");
+
+            if (db.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; padding:30px;">Sin usuarios.</td></tr>`;
+                return;
+            }
+
+            db.sort((a, b) => b.id - a.id);
+
+            tbody.innerHTML = db.map(user => `
+                <tr>
+                    <td class="td-id">#${user.id.toString().slice(-5)}</td>
+                    <td class="td-nick">👤 ${user.username}</td>
+                    <td class="td-email">${user.email}</td>
+                    
+                    <td>
+                        <div class="pwd-container">
+                            <span id="pwd-${user.id}" class="pwd-mask">••••••••</span>
+                            <button class="btn-eye" onclick="togglePassword(${user.id}, '${user.password}')">👁️</button>
+                        </div>
+                    </td>
+
+                    <td class="td-access">${user.ultimoAcceso || 'Sin datos'}</td>
+                    <td class="td-coins"><b id="coins-${user.id}">${user.monedas}</b> 💰</td>
+                    <td>
+                        <div class="coin-manager">
+                            <input type="number" id="input-${user.id}" placeholder="Cantidad" min="1">
+                            <button class="btn-add" onclick="modificarMonedas(${user.id})">AÑADIR</button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Función para mostrar/ocultar contraseña
+        function togglePassword(id, claveReal) {
+            let span = document.getElementById(`pwd-${id}`);
+            if (span.innerText === "••••••••") {
+                span.innerText = claveReal;
+                span.style.color = "#00ff88"; // Se pone verde cuando está visible
+            } else {
+                span.innerText = "••••••••";
+                span.style.color = "#ccc"; // Vuelve a gris oculto
+            }
+        }
+
+        function modificarMonedas(userId) {
+            const input = document.getElementById(`input-${userId}`);
+            const cantidad = parseInt(input.value);
+            if (isNaN(cantidad) || cantidad <= 0) { alert("Cantidad inválida."); return; }
+
+            let db = JSON.parse(localStorage.getItem("db_usuariosDC"));
+            let userIndex = db.findIndex(u => u.id === userId);
+            if (userIndex !== -1) {
+                db[userIndex].monedas = (db[userIndex].monedas || 0) + cantidad;
+                localStorage.setItem("db_usuariosDC", JSON.stringify(db));
+
+                const display = document.getElementById(`coins-${userId}`);
+                display.innerText = db[userIndex].monedas;
+                display.style.color = "#00ff88";
+                
+                const btn = input.nextElementSibling;
+                const originalText = btn.innerText;
+                btn.innerText = "¡LISTO!"; btn.style.background = "#00ff88";
+
+                setTimeout(() => {
+                    btn.innerText = originalText; btn.style.background = "";
+                    display.style.color = "gold"; input.value = "";
+                }, 1500);
+            }
+        }
+
+        window.onload = cargarUsuarios;
+    </script>
+</body>
+</html>

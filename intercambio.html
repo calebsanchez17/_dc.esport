@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Centro de Intercambio | DC ESPORT</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Montserrat:ital,wght@0,800;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/intercambio.css">
+</head>
+<body>
+
+    <nav class="sidebar">
+        <div class="sidebar-header">
+            <img src="img/red.png" alt="Logo DC">
+            <span>DC ESPORT</span>
+        </div>
+        <ul class="nav-menu">
+            <li onclick="window.location.href='inicio.html'">🏠 INICIO</li>
+            <li onclick="window.location.href='area.html'">🏆 ÁREA COMPETITIVA</li>
+            <li onclick="window.location.href='top.html'">📈 TOP 5 MUNDIAL</li>
+            <li onclick="window.location.href='pack.html'">💎 ABRIR PACK</li>
+            <li onclick="window.location.href='ia.html'">🤖 IA PREDICCIÓN</li>
+            <li onclick="window.location.href='evolucion.html'">📊 EVOLUCIÓN</li>
+            <li onclick="window.location.href='tabla.html'">🌎 TABLA SUDAMÉRICA</li>
+            <li onclick="window.location.href='mercado.html'">💰 MERCADO</li>
+            <li onclick="window.location.href='oro.html'">👑 BALÓN DE ORO</li>
+            <li onclick="window.location.href='mes.html'">⭐ JUGADOR DEL MES</li>
+            <li onclick="window.location.href='carrera.html'">🏟 MODO CARRERA</li>
+            <li onclick="window.location.href='rooster.html'">👥 ROOSTERS</li>
+            <li onclick="window.location.href='versus.html'">⚔️ TORNEO 4V4</li>
+            <li onclick="window.location.href='resultado.html'">📊 RESULTADOS</li>
+            <li class="active btn-especial">🔄 INTERCAMBIO</li>
+        </ul>
+    </nav>
+
+    <main class="main-content">
+        <header class="top-bar">
+            <h2>🔄 TERMINAL DE TRANSFERENCIAS</h2>
+            <div class="user-stats">
+                <span style="color:gold;">FONDOS: <b id="saldo-display">0</b> 💰</span>
+                <span class="user-profile" id="user-name-display" style="margin-left: 15px; color:#00ffff;">👤 CEO</span>
+            </div>
+        </header>
+
+        <section class="trade-section">
+            
+            <div class="trade-grid">
+                <div class="trade-panel panel-cards">
+                    <div class="panel-header">
+                        <h3>🃏 TRANSFERIR ACTIVO (CARTAS)</h3>
+                        <p>Selecciona una estampa de tu inventario para regalarla.</p>
+                    </div>
+
+                    <div class="inventory-box">
+                        <div id="cards-grid" class="cards-grid">
+                            </div>
+                    </div>
+
+                    <div class="transfer-controls">
+                        <label>DESTINATARIO:</label>
+                        <select id="user-select-card" class="user-select">
+                            <option value="">-- Selecciona un usuario --</option>
+                        </select>
+                        <button class="btn-trade" onclick="transferirCarta()">ENVIAR CARTA 🚀</button>
+                    </div>
+                </div>
+
+                <div class="trade-panel panel-coins">
+                    <div class="panel-header" style="border-bottom-color: gold;">
+                        <h3 style="color: gold;">💰 TRANSFERIR FONDOS</h3>
+                        <p>Envía monedas a la billetera de otro mánager.</p>
+                    </div>
+
+                    <div class="coin-transfer-box">
+                        <div class="coin-balance">
+                            <span>SALDO DISPONIBLE</span>
+                            <h2 id="saldo-transfer">0 💰</h2>
+                        </div>
+
+                        <div class="transfer-inputs">
+                            <div class="input-block">
+                                <label>CANTIDAD A ENVIAR:</label>
+                                <input type="number" id="coin-amount" placeholder="Ej: 500" min="1">
+                            </div>
+
+                            <div class="input-block">
+                                <label>DESTINATARIO:</label>
+                                <select id="user-select-coin" class="user-select">
+                                    <option value="">-- Selecciona un usuario --</option>
+                                </select>
+                            </div>
+
+                            <button class="btn-trade btn-gold" onclick="transferirMonedas()">TRANSFERIR FONDOS 💸</button>
+                        </div>
+                    </div>
+
+                    <div class="trade-log">
+                        <h4>HISTORIAL DE TRANSACCIONES</h4>
+                        <ul id="log-list">
+                            <li style="color:#aaa;">Conexión segura establecida...</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+    </main>
+
+    <script>
+        let miSesion = JSON.parse(localStorage.getItem("sesionActivaDC"));
+        let dbUsuarios = JSON.parse(localStorage.getItem("db_usuariosDC")) || [];
+        let misCartas = JSON.parse(localStorage.getItem("misCartasDC")) || [];
+        let cartaSeleccionadaId = null;
+
+        function inicializarTerminal() {
+            // Verificar si hay sesión
+            if (!miSesion) {
+                alert("Debes iniciar sesión para usar el mercado.");
+                window.location.href = "index.html";
+                return;
+            }
+
+            // Actualizar interfaz con datos del usuario
+            document.getElementById("user-name-display").innerHTML = `👤 ${miSesion.username}`;
+            actualizarSaldoUI();
+
+            // Cargar usuarios en los Selects (Excluyendo al usuario actual)
+            let usuariosDisponibles = dbUsuarios.filter(u => u.id !== miSesion.id);
+            const selectCard = document.getElementById("user-select-card");
+            const selectCoin = document.getElementById("user-select-coin");
+
+            if (usuariosDisponibles.length === 0) {
+                selectCard.innerHTML = `<option value="">No hay otros usuarios registrados</option>`;
+                selectCoin.innerHTML = `<option value="">No hay otros usuarios registrados</option>`;
+            } else {
+                let optionsHTML = `<option value="">-- Selecciona un usuario --</option>`;
+                usuariosDisponibles.forEach(u => {
+                    optionsHTML += `<option value="${u.id}">👤 ${u.username}</option>`;
+                });
+                selectCard.innerHTML = optionsHTML;
+                selectCoin.innerHTML = optionsHTML;
+            }
+
+            cargarInventario();
+        }
+
+        function actualizarSaldoUI() {
+            // Sincronizar el saldo global con el de la sesión
+            let saldoGlobal = localStorage.getItem("monedasDC");
+            if(saldoGlobal !== null) miSesion.monedas = parseInt(saldoGlobal);
+            else localStorage.setItem("monedasDC", miSesion.monedas);
+
+            document.getElementById("saldo-display").innerText = miSesion.monedas;
+            document.getElementById("saldo-transfer").innerText = `${miSesion.monedas} 💰`;
+        }
+
+        function cargarInventario() {
+            const grid = document.getElementById("cards-grid");
+            
+            if(misCartas.length === 0) {
+                grid.innerHTML = `<p style="color:#888; text-align:center; padding:20px; width:100%;">No tienes cartas en tu inventario. Abre packs para conseguir jugadores.</p>`;
+                return;
+            }
+
+            grid.innerHTML = misCartas.map(j => `
+                <div class="trade-card" id="card-${j.idUnico}" onclick="seleccionarCarta('${j.idUnico}')">
+                    <div class="c-rating">${j.pwr}</div>
+                    <img src="${j.f}" onerror="this.src='img/default.png'" class="c-pfp">
+                    <h4>${j.n}</h4>
+                    <span>${j.año}</span>
+                </div>
+            `).join('');
+        }
+
+        function seleccionarCarta(idUnico) {
+            // Desmarcar todas
+            document.querySelectorAll(".trade-card").forEach(c => c.classList.remove("selected"));
+            // Marcar la seleccionada
+            document.getElementById(`card-${idUnico}`).classList.add("selected");
+            cartaSeleccionadaId = idUnico;
+        }
+
+        function agregarLog(mensaje, color) {
+            const list = document.getElementById("log-list");
+            const li = document.createElement("li");
+            li.innerHTML = `<span style="color:${color}">[${new Date().toLocaleTimeString()}]</span> ${mensaje}`;
+            list.prepend(li);
+        }
+
+        // ==========================================
+        // LÓGICA DE TRANSFERENCIA DE CARTAS
+        // ==========================================
+        function transferirCarta() {
+            const targetUserId = parseInt(document.getElementById("user-select-card").value);
+
+            if (!cartaSeleccionadaId) { alert("⚠️ Selecciona una carta de tu inventario primero."); return; }
+            if (!targetUserId) { alert("⚠️ Selecciona un destinatario."); return; }
+
+            // Encontrar la carta
+            const cartaIndex = misCartas.findIndex(c => c.idUnico === cartaSeleccionadaId);
+            const cartaObj = misCartas[cartaIndex];
+
+            // Encontrar al usuario destino en la BD
+            let userIndex = dbUsuarios.findIndex(u => u.id === targetUserId);
+            
+            if (userIndex !== -1) {
+                // Si el usuario no tiene inventario creado, se lo creamos
+                if (!dbUsuarios[userIndex].inventario) dbUsuarios[userIndex].inventario = [];
+                
+                // Traspaso de carta
+                dbUsuarios[userIndex].inventario.push(cartaObj);
+                misCartas.splice(cartaIndex, 1); // La borramos de tu inventario
+
+                // Guardar cambios
+                localStorage.setItem("db_usuariosDC", JSON.stringify(dbUsuarios));
+                localStorage.setItem("misCartasDC", JSON.stringify(misCartas));
+
+                // UI
+                cartaSeleccionadaId = null;
+                cargarInventario();
+                agregarLog(`Carta de <b>${cartaObj.n}</b> enviada a <b>${dbUsuarios[userIndex].username}</b>.`, "#00ffff");
+                alert(`¡Transferencia de ${cartaObj.n} completada con éxito!`);
+            }
+        }
+
+        // ==========================================
+        // LÓGICA DE TRANSFERENCIA DE MONEDAS
+        // ==========================================
+        function transferirMonedas() {
+            const cantidad = parseInt(document.getElementById("coin-amount").value);
+            const targetUserId = parseInt(document.getElementById("user-select-coin").value);
+
+            if (isNaN(cantidad) || cantidad <= 0) { alert("⚠️ Ingresa una cantidad válida."); return; }
+            if (!targetUserId) { alert("⚠️ Selecciona un destinatario."); return; }
+            if (cantidad > miSesion.monedas) { alert("⚠️ Fondos insuficientes."); return; }
+
+            // Actualizar Saldos
+            let userIndex = dbUsuarios.findIndex(u => u.id === targetUserId);
+
+            if (userIndex !== -1) {
+                // Restar a mi sesión
+                miSesion.monedas -= cantidad;
+                localStorage.setItem("monedasDC", miSesion.monedas);
+                localStorage.setItem("sesionActivaDC", JSON.stringify(miSesion));
+
+                // Restar a mi perfil en la BD global para mantener consistencia
+                let myDbIndex = dbUsuarios.findIndex(u => u.id === miSesion.id);
+                if(myDbIndex !== -1) dbUsuarios[myDbIndex].monedas = miSesion.monedas;
+
+                // Sumar al destino
+                dbUsuarios[userIndex].monedas = (dbUsuarios[userIndex].monedas || 0) + cantidad;
+                
+                // Guardar BD Global
+                localStorage.setItem("db_usuariosDC", JSON.stringify(dbUsuarios));
+
+                // UI
+                actualizarSaldoUI();
+                document.getElementById("coin-amount").value = "";
+                agregarLog(`Enviaste <b>${cantidad} 💰</b> a <b>${dbUsuarios[userIndex].username}</b>.`, "gold");
+                alert(`¡Has enviado ${cantidad} monedas con éxito!`);
+            }
+        }
+
+        window.onload = inicializarTerminal;
+    </script>
+</body>
+</html>

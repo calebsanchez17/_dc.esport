@@ -1,0 +1,161 @@
+/* =========================================
+   ESTILOS EXCLUSIVOS: PANEL ADMIN
+========================================= */
+
+.admin-section {
+    padding: 30px 40px;
+    height: calc(100vh - 90px);
+    overflow-y: auto;
+    background: radial-gradient(circle at top right, rgba(255, 0, 60, 0.1), transparent 40%), #050505;
+    animation: fadeIn 0.8s ease-in-out;
+}
+
+.admin-section::-webkit-scrollbar { width: 8px; }
+.admin-section::-webkit-scrollbar-thumb { background: #ff003c; border-radius: 10px; }
+.dark-header { background: #111 !important; border-bottom: 1px solid #ff003c !important; }
+
+/* INTRO */
+.admin-intro { margin-bottom: 40px; }
+.admin-intro h1 { font-size: 32px; color: #fff; letter-spacing: 3px; text-shadow: 0 0 15px rgba(255, 0, 60, 0.5); margin-bottom: 10px; }
+.admin-intro p { color: #aaa; font-size: 14px; }
+
+/* TABLA DE BASE DE DATOS */
+.table-container {
+    background: rgba(10, 15, 25, 0.9);
+    border: 1px solid #333;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+    overflow-x: auto;
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-family: 'Orbitron', sans-serif;
+}
+
+.admin-table th {
+    background: #111;
+    color: #ff003c;
+    padding: 15px;
+    font-size: 12px;
+    letter-spacing: 2px;
+    border-bottom: 2px solid #ff003c;
+}
+
+.admin-table td {
+    padding: 15px;
+    border-bottom: 1px solid #222;
+    font-size: 13px;
+    color: #ccc;
+    transition: 0.3s;
+}
+
+.admin-table tr:hover td {
+    background: rgba(255, 0, 60, 0.05);
+    color: #fff;
+}
+
+/* ESTILOS DE CELDAS ESPECÍFICAS */
+.td-id { color: #555 !important; font-size: 10px !important; }
+.td-nick { font-weight: bold; color: #fff !important; }
+.td-email { color: #00aaff !important; font-family: monospace; }
+.td-coins { color: gold !important; font-weight: bold; }
+
+.td-access {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #00ff88 !important;
+}
+
+/* Indicador luminoso de acceso */
+.online-dot {
+    width: 8px; height: 8px;
+    background: #00ff88;
+    border-radius: 50%;
+    box-shadow: 0 0 10px #00ff88;
+    animation: blink 2s infinite;
+}
+
+@keyframes blink { 50% { opacity: 0.3; } }
+
+/* GESTIÓN DE MONEDAS EN TABLA */
+.coin-manager {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.coin-manager input {
+    background: #000;
+    border: 1px solid #444;
+    color: #fff;
+    padding: 8px;
+    border-radius: 5px;
+    width: 80px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 12px;
+}
+
+.btn-add {
+    background: #ff003c;
+    color: #fff;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 10px;
+    font-weight: 900;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-add:hover {
+    background: #fff;
+    color: #000;
+    transform: scale(1.05);
+}
+
+.td-coins b {
+    color: gold;
+    font-size: 16px;
+    transition: 0.5s;
+}
+
+/* =========================================
+   CONTRASEÑAS Y SEGURIDAD (BOTÓN OJO)
+========================================= */
+.pwd-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.pwd-mask {
+    font-family: monospace;
+    font-size: 14px;
+    letter-spacing: 2px;
+    color: #ccc;
+    width: 80px;
+    display: inline-block;
+}
+
+.btn-eye {
+    background: transparent;
+    border: 1px solid #555;
+    color: #fff;
+    border-radius: 5px;
+    padding: 5px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: 0.3s;
+}
+
+.btn-eye:hover {
+    background: #333;
+    border-color: #00aaff;
+    transform: scale(1.1);
+}

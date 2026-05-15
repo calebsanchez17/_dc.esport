@@ -3,41 +3,196 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DC ESPORT | Professional Management</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
-    
+    <title>Acceso | DC ESPORT CLIENT</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Montserrat:ital,wght@0,800;1,900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/login.css">
 </head>
 <body>
 
-    <div id="login-screen" class="login-container">
-        <div class="login-overlay"></div>
-        
-        <div class="login-card">
-            <div class="login-header">
-                <img src="img/red.png" alt="Logo DC" class="login-logo-img">
-                <h1>DC ESPORT</h1>
-                <p>SISTEMA DE GESTIÓN PROFESIONAL</p>
-            </div>
+    <div class="login-bg"></div>
+    <div class="overlay"></div>
 
-            <div class="login-body">
+    <div class="login-container">
+        
+        <div class="brand-side">
+            <img src="img/red.png" alt="DC ESPORT" class="brand-logo" onerror="this.src='img/default.png'">
+            <h1>DC ESPORT</h1>
+            <p>SISTEMA DE GESTIÓN PROFESIONAL</p>
+            <div class="server-status">
+                <span class="dot"></span> SERVIDOR ACTIVO - LATAM
+            </div>
+        </div>
+
+        <div class="form-side">
+            
+            <div id="login-form" class="form-wrapper">
+                <h2>INICIAR SESIÓN</h2>
+                <p class="subtitle">Ingresa tus credenciales de CEO</p>
+
                 <div class="input-group">
-                    <label>USUARIO</label>
-                    <input type="text" id="user" placeholder="DC ESPORT">
+                    <label>USUARIO O CORREO</label>
+                    <input type="text" id="log-user" placeholder="Ej: Caleb17" autocomplete="off">
                 </div>
+
                 <div class="input-group">
                     <label>CONTRASEÑA</label>
-                    <input type="password" id="pass" placeholder="1234">
+                    <input type="password" id="log-pass" placeholder="••••••••">
                 </div>
-                <button class="btn-login" onclick="intentarLogin()">
-                    ACCEDER AL SISTEMA
-                </button>
-                <p id="error-msg" class="error-text"></p>
+
+                <div class="error-msg" id="login-error">Credenciales incorrectas.</div>
+
+                <button class="btn-submit" onclick="iniciarSesion()">ENTRAR AL SISTEMA</button>
+                
+                <div class="form-footer">
+                    <span class="link" onclick="mostrarForm('forgot')">¿Olvidaste tu contraseña?</span><br><br>
+                    ¿No tienes una cuenta? <span class="link" onclick="mostrarForm('register')">Regístrate aquí</span>
+                </div>
             </div>
+
+            <div id="register-form" class="form-wrapper hidden">
+                <h2>CREAR CUENTA</h2>
+                <p class="subtitle">Únete a la liga competitiva</p>
+
+                <div class="input-group">
+                    <label>NICKNAME (USUARIO)</label>
+                    <input type="text" id="reg-user" placeholder="Tu nombre en el juego" autocomplete="off">
+                </div>
+
+                <div class="input-group">
+                    <label>CORREO ELECTRÓNICO</label>
+                    <input type="email" id="reg-email" placeholder="ceo@dcesport.com" autocomplete="off">
+                </div>
+
+                <div class="input-group">
+                    <label>CONTRASEÑA</label>
+                    <input type="password" id="reg-pass" placeholder="Crea una contraseña segura">
+                </div>
+
+                <div class="error-msg" id="reg-error">Todos los campos son obligatorios.</div>
+                <div class="success-msg" id="reg-success">¡Cuenta creada con éxito!</div>
+
+                <button class="btn-submit btn-red" onclick="crearCuenta()">REGISTRAR DATOS</button>
+                
+                <div class="form-footer">
+                    ¿Ya tienes una cuenta? <span class="link" onclick="mostrarForm('login')">Inicia sesión</span>
+                </div>
+            </div>
+
+            <div id="forgot-form" class="form-wrapper hidden">
+                <h2>RECUPERAR ACCESO</h2>
+                <p class="subtitle">Buscaremos tu contraseña encriptada</p>
+
+                <div class="input-group">
+                    <label>INGRESA TU CORREO REGISTRADO</label>
+                    <input type="email" id="rec-email" placeholder="ceo@dcesport.com" autocomplete="off">
+                </div>
+
+                <div class="error-msg" id="rec-error">El correo no existe.</div>
+                
+                <div class="success-msg" id="rec-success" style="background: rgba(0,255,136,0.1); border: 1px solid #00ff88; padding: 15px; border-radius: 8px; font-size: 14px; text-align: center;"></div>
+
+                <button class="btn-submit" onclick="recuperarClave()" style="background: gold; color: #000;">BUSCAR CONTRASEÑA 🔍</button>
+                
+                <div class="form-footer">
+                    <span class="link" onclick="mostrarForm('login')">Volver a Iniciar Sesión</span>
+                </div>
+            </div>
+
         </div>
     </div>
 
-    <script src="js/auth.js"></script>
+    <script>
+        if (!localStorage.getItem("db_usuariosDC")) { localStorage.setItem("db_usuariosDC", JSON.stringify([])); }
+
+        // Navegación entre vistas
+        function mostrarForm(tipo) {
+            document.getElementById("login-form").classList.add("hidden");
+            document.getElementById("register-form").classList.add("hidden");
+            document.getElementById("forgot-form").classList.add("hidden");
+            
+            // Limpiar errores
+            document.querySelectorAll(".error-msg, .success-msg").forEach(el => el.style.display = "none");
+
+            if(tipo === 'login') document.getElementById("login-form").classList.remove("hidden");
+            else if(tipo === 'register') document.getElementById("register-form").classList.remove("hidden");
+            else if(tipo === 'forgot') document.getElementById("forgot-form").classList.remove("hidden");
+        }
+
+        // Crear Cuenta
+        function crearCuenta() {
+            const user = document.getElementById("reg-user").value.trim();
+            const email = document.getElementById("reg-email").value.trim();
+            const pass = document.getElementById("reg-pass").value.trim();
+            const errorMsg = document.getElementById("reg-error");
+            const successMsg = document.getElementById("reg-success");
+
+            errorMsg.style.display = "none"; successMsg.style.display = "none";
+
+            if (user === "" || email === "" || pass === "") { errorMsg.innerText = "Error: Todos los campos son obligatorios."; errorMsg.style.display = "block"; return; }
+
+            let db = JSON.parse(localStorage.getItem("db_usuariosDC"));
+            if (db.find(u => u.username.toLowerCase() === user.toLowerCase() || u.email.toLowerCase() === email.toLowerCase())) {
+                errorMsg.innerText = "Error: El usuario o correo ya está registrado."; errorMsg.style.display = "block"; return;
+            }
+
+            const nuevoUsuario = { id: Date.now(), username: user, email: email, password: pass, monedas: 5000, fechaRegistro: new Date().toLocaleDateString('es-PE') };
+            db.push(nuevoUsuario); localStorage.setItem("db_usuariosDC", JSON.stringify(db));
+
+            successMsg.style.display = "block";
+            setTimeout(() => { document.getElementById("reg-user").value = ""; document.getElementById("reg-email").value = ""; document.getElementById("reg-pass").value = ""; mostrarForm('login'); }, 1500);
+        }
+
+        // Iniciar Sesión
+        function iniciarSesion() {
+            const userOrEmail = document.getElementById("log-user").value.trim();
+            const pass = document.getElementById("log-pass").value.trim();
+            const errorMsg = document.getElementById("login-error");
+
+            errorMsg.style.display = "none";
+            if (userOrEmail === "" || pass === "") { errorMsg.innerText = "Ingresa tus credenciales."; errorMsg.style.display = "block"; return; }
+
+            if (userOrEmail === "admin" && pass === "admin2026") {
+                document.querySelector(".btn-submit").innerText = "ACCESO CONCEDIDO: ADMIN";
+                setTimeout(() => window.location.href = "admin.html", 800); return;
+            }
+
+            let db = JSON.parse(localStorage.getItem("db_usuariosDC")) || [];
+            let usuarioValido = db.find(u => (u.username.toLowerCase() === userOrEmail.toLowerCase() || u.email.toLowerCase() === userOrEmail.toLowerCase()) && u.password === pass);
+
+            if (usuarioValido) {
+                usuarioValido.ultimoAcceso = new Date().toLocaleString('es-PE', { hour12: true });
+                db[db.findIndex(u => u.id === usuarioValido.id)] = usuarioValido;
+                localStorage.setItem("db_usuariosDC", JSON.stringify(db));
+                localStorage.setItem("sesionActivaDC", JSON.stringify(usuarioValido));
+                
+                document.querySelector(".btn-submit").innerText = "CONECTANDO...";
+                setTimeout(() => window.location.href = "inicio.html", 800);
+            } else {
+                errorMsg.innerText = "Usuario o contraseña incorrectos."; errorMsg.style.display = "block";
+            }
+        }
+
+        // Recuperar Clave (Simulación de envío/desencriptación)
+        function recuperarClave() {
+            const email = document.getElementById("rec-email").value.trim();
+            const errorMsg = document.getElementById("rec-error");
+            const successMsg = document.getElementById("rec-success");
+
+            errorMsg.style.display = "none"; successMsg.style.display = "none";
+
+            if (email === "") { errorMsg.innerText = "Ingresa un correo."; errorMsg.style.display = "block"; return; }
+
+            let db = JSON.parse(localStorage.getItem("db_usuariosDC")) || [];
+            let usuario = db.find(u => u.email.toLowerCase() === email.toLowerCase());
+
+            if (usuario) {
+                // Simulamos que en vez de enviar correo, el sistema lo desencripta
+                successMsg.innerHTML = `Identidad verificada. Tu contraseña es:<br><br><b style="font-size: 20px; color:#fff; letter-spacing: 3px;">${usuario.password}</b><br><br><span style="font-size:10px; color:#aaa;">(En un entorno con servidor, esto se enviaría a tu email).</span>`;
+                successMsg.style.display = "block";
+            } else {
+                errorMsg.innerText = "Este correo no está registrado en la base de datos."; errorMsg.style.display = "block";
+            }
+        }
+    </script>
 </body>
 </html>

@@ -38,7 +38,7 @@
         <header class="top-bar dark-header">
             <h2>💎 TIENDA DE SOBRES OFICIALES</h2>
             <div class="user-stats">
-                <span style="color:gold;">PRESUPUESTO: <b id="saldo-monedas">5000</b> 💰</span>
+                <span style="color:gold;">PRESUPUESTO: <b id="saldo-monedas">100000000</b> 💰</span>
             </div>
         </header>
 
@@ -141,14 +141,14 @@
         let cartasObtenidas = [];
 
         function abrirSobre() {
-            let saldo = localStorage.getItem("monedasDC") ? parseInt(localStorage.getItem("monedasDC")) : 5000;
+            let saldo = localStorage.getItem("monedasDC") ? parseInt(localStorage.getItem("monedasDC")) : 1000000;
             if (saldo < 1000) {
                 alert("No tienes suficientes monedas (Cuesta 1000 💰). Juega torneos para ganar más.");
                 return;
             }
 
             // Descontar monedas
-            saldo -= 1000;
+            saldo -= 500;
             localStorage.setItem("monedasDC", saldo);
             document.getElementById("saldo-monedas").innerText = saldo;
 
@@ -237,7 +237,7 @@
 
         // Cargar saldo inicial
         window.onload = () => {
-            let saldo = localStorage.getItem("monedasDC") ? parseInt(localStorage.getItem("monedasDC")) : 5000;
+            let saldo = localStorage.getItem("monedasDC") ? parseInt(localStorage.getItem("monedasDC")) : 100000;
             document.getElementById("saldo-monedas").innerText = saldo;
         };
     </script>
